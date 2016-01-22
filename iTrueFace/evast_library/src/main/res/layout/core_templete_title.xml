@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/left_text" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginLeft="15dp"
+        android:layout_centerVertical="true" android:layout_alignParentLeft="true"
+        android:textSize="15dp" />
+    <ImageView
+        android:id="@+id/left_text_right_image" android:layout_width="15dp"
+        android:layout_height="15dp" android:layout_toRightOf="@id/left_text"
+        android:layout_alignBottom="@id/left_text" android:layout_marginLeft="3dp" />
+    <TextView
+        android:id="@+id/right_text" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" android:layout_marginRight="15dp"
+        android:textSize="15dp"/>
+    <TextView
+        android:id="@+id/title_name" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_centerInParent="true"
+        android:gravity="center" android:layout_alignBottom="@id/left_text"
+        android:textSize="15dp"/>
+
+    <LinearLayout
+        android:id="@+id/centerbut_body" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_centerInParent="true"
+        android:visibility="gone" android:orientation="horizontal">
+        <Button
+            android:id="@+id/message" android:layout_width="80dp"
+            android:layout_height="30dp" android:text="消息"
+            android:textColor="@color/blue" android:background="@drawable/mes_background"
+            android:gravity="center"/>
+        <Button
+            android:id="@+id/linkman" android:layout_width="80dp"
+            android:layout_height="30dp" android:text="联系人"
+            android:textColor="@color/blue" android:background="@drawable/linkman_background"
+            android:gravity="center"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,16 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/layout_fill" xmlns:wheel="http://schemas.android.com/apk/res-auto">
+
+    <include android:id="@+id/base_title" layout="@layout/core_toolbar"/>
+    <RelativeLayout
+         style="@style/layout_fill" android:layout_below="@id/base_title">
+        <RelativeLayout
+            android:id="@+id/base_mainbody" style="@style/layout_fill"/>
+        <com.pnikosis.materialishprogress.ProgressWheel android:id="@+id/base_wheel_loading"
+            android:layout_width="75dp" android:layout_height="75dp"
+            android:layout_centerInParent="true" android:layout_gravity="center"
+            wheel:matProg_barColor="?attr/colorPrimary" android:visibility="gone"
+            wheel:matProg_progressIndeterminate="true" wheel:matProg_spinSpeed="1.2" />
+    </RelativeLayout>
+
+</RelativeLayout>

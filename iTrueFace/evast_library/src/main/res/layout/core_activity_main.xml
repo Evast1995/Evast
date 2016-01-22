@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context=".MainActivity"
+    android:layout_margin="15dp">
+
+    <Button
+        android:id="@+id/sql_demo" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+        android:text="sqlDemo"/>
+    <Button
+        android:id="@+id/slip_demo" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+        android:text="SlipDemo" android:layout_below="@id/sql_demo"/>
+    <Button
+        android:id="@+id/service_demo" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+        android:text="ServiceDemo" android:layout_below="@id/slip_demo"/>
+    <LinearLayout
+        android:id="@+id/service_relat" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:visibility="gone" android:layout_below="@id/service_demo">
+        <Button
+            android:id="@+id/stop_startservice" android:layout_width="0dp"
+            android:layout_height="wrap_content" android:text="以stopSerive的方式停止"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/stop_bindservice" android:layout_width="0dp"
+            android:layout_height="wrap_content" android:text="以unbind方式停止"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/boardcast_demo" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+        android:text="BoardCastDemo" android:layout_below="@id/service_relat"/>
+    <LinearLayout
+        android:id="@+id/boardcast_relat" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:visibility="gone" android:layout_below="@id/service_demo">
+        <Button
+            android:id="@+id/sendBoardCast" android:layout_width="0dp"
+            android:layout_height="wrap_content" android:text="发送广播"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/registBoardCast" android:layout_width="0dp"
+            android:layout_height="wrap_content" android:text="注册广播"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</RelativeLayout>
