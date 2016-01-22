@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name = "imageOrTextMixed_attr">
+        <attr name = "image_src" format = "reference" />
+        <attr name = "text_one_text" format="reference"/>
+        <attr name = "text_two_text" format="reference"/>
+        <attr name = "selection" format="boolean"/>
+    </declare-styleable>
+</resources>

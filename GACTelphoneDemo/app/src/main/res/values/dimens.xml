@@ -1,0 +1,48 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="actionBar_height">30dp</dimen>
+    <dimen name="dialkey_height">56dp</dimen>
+
+    <dimen name="dials_top_spacing">1dp</dimen>
+    <dimen name="model_btn_margin">10dp</dimen>
+
+    <dimen name="account_margin">5dp</dimen>
+    <dimen name="account_image_padding">3dp</dimen>
+
+    <dimen name="popup_width">80dp</dimen>
+    <dimen name="popup_item_margintop">10dp</dimen>
+
+    <dimen name="hangup_btn_width">100dp</dimen>
+    <dimen name="meeting_threebtn_marginright">50dp</dimen>
+    <dimen name="meeting_imagebtn_marginleft">10dp</dimen>
+    <dimen name="meeting_onebtn_margintop">20dp</dimen>
+    <dimen name="meeting_tiplayout_image_marginleft">10dp</dimen>
+    <dimen name="meeting_tiplayout_text_margintop">3dp</dimen>
+
+    <dimen name="search_item_image_dimen">40dp</dimen>
+    <dimen name="search_item_image_marginleft">20dp</dimen>
+    <dimen name="search_item_tv_margintop">4dp</dimen>
+
+    <dimen name="deledit_minwidth">30dp</dimen>
+    <dimen name="change_contact_height">45dp</dimen>
+
+    <dimen name="changecontact_image_dimen">60dp</dimen>
+    <dimen name="changecontact_image_marginleft">30dp</dimen>
+    <dimen name="changecontact_image_margintop">4dp</dimen>
+    <dimen name="changecontact_checkbox_marginright">20dp</dimen>
+
+    <!--<dimen name="meeting_twobtn_marginleft">40dp</dimen>-->
+    <!--<dimen name="meeting_twobtn_marginbottom">15dp</dimen>-->
+
+    <dimen name="meeting_btn_margin">10dp</dimen>
+    <dimen name="alert_btn_margin">5dp</dimen>
+    <dimen name="alert_btn_height">40dp</dimen>
+    <dimen name="meeting_position_dimen">55dp</dimen>
+
+    <dimen name="contact_title_padding">8dp</dimen>
+    <dimen name="contact_icon_dimen">20dp</dimen>
+    <dimen name="contact_text_marginleft">10dp</dimen>
+</resources>

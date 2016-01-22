@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="call_model">
+        <item>呼叫</item>
+        <item>Paging</item>
+        <item>IP呼叫</item>
+    </string-array>
+
+    <string-array name="alert_state_one">
+        <item>开始录音</item>
+        <item>开始暂停</item>
+        <item>结束会议</item>
+    </string-array>
+    <string-array name="alert_state_two">
+        <item>暂停录音</item>
+        <item>开始暂停</item>
+        <item>结束会议</item>
+    </string-array>
+    <string-array name="alert_state_three">
+        <item>开始录音</item>
+        <item>停止暂停</item>
+        <item>结束会议</item>
+    </string-array>
+    <string-array name="alert_state_four">
+        <item>暂停录音</item>
+        <item>停止暂停</item>
+        <item>结束会议</item>
+    </string-array>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:orientation="horizontal"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/search_head_image" android:layout_width="@dimen/search_item_image_dimen"
+        android:layout_height="@dimen/search_item_image_dimen" android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/search_item_image_marginleft" android:scaleType="centerCrop"/>
+    <LinearLayout
+        android:layout_width="match_parent" android:orientation="vertical"
+        android:layout_height="match_parent" android:layout_marginLeft="@dimen/search_item_image_marginleft"
+        android:layout_gravity="center_vertical">
+        <TextView
+            android:id="@+id/search_nameTv" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:lines="1"/>
+        <TextView
+            android:id="@+id/search_phoneTv" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_marginTop="@dimen/search_item_tv_margintop"
+            android:lines="1"/>
+    </LinearLayout>
+</LinearLayout>

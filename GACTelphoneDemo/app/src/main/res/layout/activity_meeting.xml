@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/center_layout" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:background="@mipmap/call_audio_con_desk" android:gravity="center"
+        android:layout_centerInParent="true">
+        <ImageButton
+            android:id="@+id/pause_btn" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:background="@drawable/pause_bg"/>
+        <ImageButton
+            android:id="@+id/lock_btn" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:background="@drawable/lock_bg"
+            android:layout_marginLeft="@dimen/meeting_imagebtn_marginleft" />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/clockwise_one" android:layout_width="@dimen/meeting_position_dimen"
+        android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/host_user"
+        android:layout_centerHorizontal="true" android:layout_above="@id/center_layout"
+        android:layout_marginBottom="@dimen/meeting_onebtn_margintop"/>
+
+    <ImageView
+        android:id="@+id/clockwise_two" android:layout_width="@dimen/meeting_position_dimen"
+        android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
+        android:layout_above="@id/center_layout" android:layout_toRightOf="@id/center_layout" />
+    <TextView
+        android:id="@+id/clockwise_two_text_name" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_two"
+        android:layout_alignLeft="@id/clockwise_two" android:gravity="center"
+        android:textSize="10sp"/>
+    <TextView
+        android:id="@+id/clockwise_two_text" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_two_text_name"
+        android:layout_alignLeft="@id/clockwise_two" android:gravity="center"
+        android:textSize="10sp"/>
+
+
+    <ImageView
+        android:id="@+id/clockwise_three" android:layout_width="@dimen/meeting_position_dimen"
+        android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
+        android:layout_toRightOf="@id/center_layout" android:layout_alignBottom="@id/center_layout"
+        android:layout_marginLeft="@dimen/meeting_threebtn_marginright"/>
+    <TextView
+        android:id="@+id/clockwise_three_text_name" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_three"
+        android:layout_alignLeft="@id/clockwise_three" android:gravity="center"
+        android:textSize="10sp"/>
+    <TextView
+        android:id="@+id/clockwise_three_text" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_three_text_name"
+        android:layout_alignLeft="@id/clockwise_three" android:gravity="center"
+        android:textSize="10sp"/>
+
+
+
+    <ImageView
+        android:id="@+id/clockwise_four" android:layout_width="@dimen/meeting_position_dimen"
+        android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
+        android:layout_below="@id/center_layout" android:layout_alignStart="@id/center_layout"
+        android:layout_marginTop="@dimen/meeting_onebtn_margintop"/>
+    <TextView
+        android:id="@+id/clockwise_four_text_name" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_four"
+        android:layout_alignLeft="@id/clockwise_four" android:gravity="center"
+        android:textSize="10sp"/>
+    <TextView
+        android:id="@+id/clockwise_four_text" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_four_text_name"
+        android:layout_alignLeft="@id/clockwise_four" android:gravity="center"
+        android:textSize="10sp"/>
+
+
+
+    <ImageView
+        android:id="@+id/clockwise_five" android:layout_width="@dimen/meeting_position_dimen"
+        android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
+        android:layout_below="@id/center_layout" android:layout_alignEnd="@id/center_layout"
+        android:layout_marginTop="@dimen/meeting_onebtn_margintop" />
+    <TextView
+        android:id="@+id/clockwise_five_text_name" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_five"
+        android:layout_alignLeft="@id/clockwise_five" android:gravity="center"
+        android:layout_alignRight="@id/clockwise_five" android:textSize="10sp"/>
+    <TextView
+        android:id="@+id/clockwise_five_text" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_five_text_name"
+        android:layout_alignLeft="@id/clockwise_five" android:gravity="center"
+        android:textSize="10sp"/>
+
+
+    <ImageView
+        android:id="@+id/clockwise_six" android:layout_width="@dimen/meeting_position_dimen"
+        android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
+        android:layout_toLeftOf="@id/center_layout" android:layout_alignBottom="@id/center_layout"
+        android:layout_marginRight="@dimen/meeting_threebtn_marginright"/>
+    <TextView
+        android:id="@+id/clockwise_six_text_name" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_six"
+        android:layout_alignLeft="@id/clockwise_six" android:gravity="center"
+        android:textSize="10sp"/>
+    <TextView
+        android:id="@+id/clockwise_six_text" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_six_text_name"
+        android:layout_alignLeft="@id/clockwise_six" android:gravity="center"
+        android:textSize="10sp"/>
+
+
+    <ImageView
+        android:id="@+id/clockwise_seven" android:layout_width="@dimen/meeting_position_dimen"
+        android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
+        android:layout_above="@id/center_layout" android:layout_toLeftOf="@id/center_layout" />
+    <TextView
+        android:id="@+id/clockwise_seven_text_name" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_seven"
+        android:layout_alignLeft="@id/clockwise_seven" android:gravity="center"
+        android:textSize="10sp"/>
+    <TextView
+        android:id="@+id/clockwise_seven_text" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/clockwise_seven_text_name"
+        android:layout_alignLeft="@id/clockwise_seven" android:gravity="center"
+        android:textSize="10sp"/>
+
+    <Button
+        android:id="@+id/more_btn" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="@string/more_btn_text"
+        android:layout_alignParentBottom="true" android:layout_margin="@dimen/meeting_btn_margin"/>
+    <Button
+        android:id="@+id/end_btn" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="@string/end_btn_text"
+        android:layout_alignParentBottom="true" android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/meeting_btn_margin"/>
+    <LinearLayout
+        android:id="@+id/meeting_tip_layout" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_centerInParent="true"
+        android:orientation="vertical" android:gravity="center_horizontal"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/people_head" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:src="@mipmap/conf_incoming_default_pic"/>
+        <TextView
+            android:id="@+id/people_name" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/peoplename"
+            android:layout_marginTop="@dimen/meeting_tiplayout_text_margintop"/>
+        <TextView
+            android:id="@+id/people_phone" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/peoplephone"
+            android:layout_marginTop="@dimen/meeting_tiplayout_text_margintop"/>
+        <LinearLayout
+            android:layout_width="wrap_content" android:orientation="horizontal"
+            android:layout_height="wrap_content" android:layout_marginTop="@dimen/meeting_tiplayout_text_margintop">
+            <ImageView
+                android:id="@+id/people_recall" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:src="@mipmap/conf_member_recall_pressed"/>
+            <ImageView
+                android:id="@+id/people_remove" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:src="@mipmap/conf_member_remove_pressed"
+                android:layout_marginLeft="@dimen/meeting_tiplayout_image_marginleft"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

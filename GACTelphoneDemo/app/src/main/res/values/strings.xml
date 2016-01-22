@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">GACTelphoneDemo</string>
+    <string name="model">模式</string>
+    <string name="call">呼叫</string>
+    <string name="paging">Paging</string>
+    <string name="ip_call">IP呼叫</string>
+    <string name="default_null"></string>
+    <string name="accept">接听</string>
+    <string name="reject">拒接</string>
+    <string name="local_account">本地账号:</string>
+    <string name="remote_num">来电号码:</string>
+    <string name="call_num">拨打号码:</string>
+    <string name="call_with">与%1$s通话中...</string>
+    <string name="start_pause">开始暂停</string>
+    <string name="stop_pause">停止暂停</string>
+
+    <string name="hang_up">挂断</string>
+    <string name="add_meeting">加入会议</string>
+    <string name="start_record">开始录音</string>
+    <string name="stop_record">结束录音</string>
+    <string name="in_call">呼叫中....</string>
+    <string name="calling">通话中....</string>
+    <string name="transfer_phone">转移通话</string>
+    <string name="call_failed">呼叫失败</string>
+    <string name="call_busy">对方正忙</string>
+
+    <string name="meeting_room">会议室</string>
+    <string name="constact_people">联系人</string>
+    <string name="more_btn_text">更多</string>
+    <string name="end_btn_text">结束</string>
+    <string name="transfering">转移通话中。。。</string>
+    <string name="end_meeting">结束会议</string>
+    <string name="attention">注意</string>
+    <string name="isEndConf">是否结束会议</string>
+    <string name="cancel">取消</string>
+    <string name="sure">确定</string>
+    <string name="call_state">通话状态</string>
+    <string name="having_conf">您有一个会议正在进行</string>
+    <string name="touch_return_call">触摸返回通话</string>
+    <string name="phone_isnull">电话号码为空</string>
+    <string name="most_member">您最多可以添加6个成员</string>
+    <string name="change_account">选择账号</string>
+
+    <string name="group_people">组员:%1$s</string>
+    <string name="peoplename">姓名：%1$s</string>
+    <string name="peoplephone">号码：%1$s</string>
+</resources>
