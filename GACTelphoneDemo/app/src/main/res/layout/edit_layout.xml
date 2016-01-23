@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@drawable/edit_bg" >
-
-    <LinearLayout
-        android:id="@+id/textview_layout" android:layout_width="wrap_content"
-        android:layout_height="match_parent" android:orientation="horizontal"
-        android:gravity="center"/>
-    <EditText
-        android:id="@+id/del_edit" android:layout_width="wrap_content"
-        android:layout_height="match_parent" android:background="#00000000"
-        android:textColor="#000000" android:layout_centerVertical="true"
-        android:minWidth="@dimen/deledit_minwidth"  android:layout_toRightOf="@id/textview_layout"/>
+    android:background="@drawable/edit_bg">
     <ImageView
         android:id="@+id/del_icon" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:src="@drawable/del_icon_bg"
-        android:layout_marginRight="5dp" android:layout_alignParentRight="true"
-        android:clickable="true" android:layout_centerVertical="true"/>
+        android:layout_marginRight="@dimen/deledit_delicon_marginright"
+        android:layout_alignParentRight="true" android:clickable="true"
+        android:layout_centerVertical="true"/>
+    <HorizontalScrollView
+        android:id="@+id/scroll_view" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_centerVertical="true">
+        <LinearLayout
+            android:layout_width="wrap_content" android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/textview_layout" android:layout_width="wrap_content"
+                android:layout_height="match_parent" android:orientation="horizontal"
+                android:gravity="center"/>
+            <EditText
+                android:id="@+id/del_edit" android:layout_width="wrap_content"
+                android:layout_height="match_parent" android:background="#00000000"
+                android:textColor="#000000" android:layout_centerVertical="true" />
+        </LinearLayout>
+    </HorizontalScrollView>
 </RelativeLayout>

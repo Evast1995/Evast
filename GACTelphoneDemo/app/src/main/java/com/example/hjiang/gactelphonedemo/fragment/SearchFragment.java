@@ -8,17 +8,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CallLog;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.hjiang.gactelphonedemo.R;
-import com.example.hjiang.gactelphonedemo.bean.SearchBean;
 import com.example.hjiang.gactelphonedemo.activity.MainActivity;
 import com.example.hjiang.gactelphonedemo.adapter.SearchAdapter;
+import com.example.hjiang.gactelphonedemo.bean.SearchBean;
 import com.example.hjiang.gactelphonedemo.util.ContactsUtil;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class SearchFragment extends Fragment{
     private Context context;
     private ListView listView;
     private SearchAdapter adapter;
+    private TextView phoneTv;
     private  List<SearchBean> list = new ArrayList<SearchBean>();
 
     @Override
@@ -43,6 +45,7 @@ public class SearchFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.framgent_search,container,false);
+        phoneTv = (TextView) view.findViewById(R.id.search_phoneTv);
         initListView(view);
         return view;
     }
@@ -64,6 +67,7 @@ public class SearchFragment extends Fragment{
     }
 
     public void search(String keyword) {
+        phoneTv.setText(keyword);
         new AsyncTask<String,Void,List<SearchBean>>(){
             @Override
             protected List<SearchBean> doInBackground(String... params) {
@@ -93,9 +97,13 @@ public class SearchFragment extends Fragment{
             SearchBean searchBean = new SearchBean();
             String phoneNumStr = historyCursor.getString(historyCursor.getColumnIndex("origin_number"));
             searchBean.setPhoneNum(phoneNumStr);
-            if(phoneNumStr!=null) {
-                String displayNameStr = ContactsUtil.getInstance(context).getDisplayNameByPhone(phoneNumStr).toString();
-                searchBean.setDisplayName(displayNameStr);
+            if(!TextUtils.isEmpty(phoneNumStr)) {
+                List<String> displayNameList = ContactsUtil.getInstance(context).getDisplayNameByPhone(phoneNumStr);
+                if(displayNameList.size()>0) {
+                    searchBean.setDisplayName(displayNameList.toString());
+                }else{
+                    searchBean.setDisplayName(phoneNumStr);
+                }
             }
             switch (historyCursor.getInt(historyCursor.getColumnIndex("type"))){
                 case CallLog.Calls.INCOMING_TYPE:{
@@ -131,8 +139,6 @@ public class SearchFragment extends Fragment{
             list.add(searchBean);
         }
         cursor.close();
-
-        Log.e("--main--","list size:"+list.size());
         return list;
     }
 

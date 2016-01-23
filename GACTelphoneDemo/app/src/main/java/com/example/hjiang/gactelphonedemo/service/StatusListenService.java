@@ -108,10 +108,11 @@ public class StatusListenService extends Service implements IStatusChangeListene
     private void sendBroadCastForStautsChange(int status,LineObj lineObj){
         Intent intent = new Intent(Contants.BROADCAST_ACTION);
         Bundle bundle = new Bundle();
-        bundle.putInt(Contants.CALL_STATUS, status);
-        bundle.putSerializable(Contants.LINEOBJ_KEY,lineObj);
-        intent.putExtras(bundle);
-        sendBroadcast(intent);
+        if(lineObj.getId()!=-1) {
+            bundle.putInt(Contants.LINEOBJ_KEY, lineObj.getId());
+            intent.putExtras(bundle);
+            sendBroadcast(intent);
+        }
     }
 
     @Override
@@ -134,6 +135,8 @@ public class StatusListenService extends Service implements IStatusChangeListene
             case LineObjManager.STATUS_CONNECTED:{
                 if(!isInConf) {
                     openConnectingActivity(line);
+                }else{
+
                 }
                 break;
             }

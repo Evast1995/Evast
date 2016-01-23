@@ -86,6 +86,7 @@ public class ConnectingActivity extends BaseActivity implements View.OnClickList
         switch (v.getId()){
             /** 加入会议*/
             case R.id.add_meeting:{
+                CallUtils.getInstance(this).confAddLine(lineObj.getId());
                 break;
             }
             /** 接听*/

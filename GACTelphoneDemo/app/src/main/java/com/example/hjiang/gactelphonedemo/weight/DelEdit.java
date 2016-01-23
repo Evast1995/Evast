@@ -1,6 +1,7 @@
 package com.example.hjiang.gactelphonedemo.weight;
 
 import android.content.Context;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -11,8 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.hjiang.gactelphonedemo.R;
@@ -28,6 +32,7 @@ public class DelEdit extends FrameLayout{
     private EditText editTv;
     private ImageView delIcon;
     private LinearLayout textViewLayout;
+    private HorizontalScrollView scrollView;
 
     public DelEdit(Context context) {
         super(context);
@@ -47,11 +52,13 @@ public class DelEdit extends FrameLayout{
         init();
     }
 
+
     private void init(){
         View view =LayoutInflater.from(context).inflate(R.layout.edit_layout,this,true);
         editTv = (EditText) view.findViewById(R.id.del_edit);
         delIcon = (ImageView) view.findViewById(R.id.del_icon);
         textViewLayout = (LinearLayout) view.findViewById(R.id.textview_layout);
+        scrollView = (HorizontalScrollView) view.findViewById(R.id.scroll_view);
         delCharInEdit();
     }
 
@@ -64,21 +71,50 @@ public class DelEdit extends FrameLayout{
         final TextView textView = new TextView(context);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(5,0,0,0);
+        layoutParams.setMargins(5, 0, 0, 0);
+
         textView.setLayoutParams(layoutParams);
         textView.setText(phoneStr);
         textView.setTextColor(context.getResources().getColor(R.color.white));
         textView.setBackgroundResource(R.mipmap.number_box_launcher_default);
         textView.setGravity(Gravity.CENTER);
+
         /** 点击视图删除*/
         textView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 textViewLayout.removeView(textView);
+                setScrollViewLayoutParams();
             }
         });
         textViewLayout.addView(textView);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                setScrollViewLayoutParams();
+            }
+        });
+
     }
+    Handler handler = new Handler();
+
+
+    /**
+     * 设置当scrollview的长度大于某个值时 使它设置marginleft 当它小于这个值的时候使它去掉marginleft
+     */
+    private void setScrollViewLayoutParams(){
+        RelativeLayout.LayoutParams  scrolLayoutParams = (RelativeLayout.LayoutParams) scrollView.getLayoutParams();
+        if(scrollView.getWidth()>=200){
+            scrolLayoutParams.setMargins(0, 0, 50, 0);
+            scrollView.setLayoutParams(scrolLayoutParams);
+            /** 滑动到最后*/
+            scrollView.fullScroll(ScrollView.FOCUS_RIGHT);
+        }else if(scrollView.getWidth()<200){//小于这个值的时候editText宽度为 wrap_content scrollview 恢复marginleft为0
+            scrolLayoutParams.setMargins(0,0,0,0);
+            scrollView.setLayoutParams(scrolLayoutParams);
+        }
+    }
+
     /**
      * 点击删除图标删除编辑框中的一个字符
      */
@@ -97,6 +133,7 @@ public class DelEdit extends FrameLayout{
                 } else if (textViewLastPositon != 0) {
                     textViewLayout.removeViewAt(textViewLastPositon - 1);
                 }
+                setScrollViewLayoutParams();
             }
         });
     }
@@ -106,7 +143,8 @@ public class DelEdit extends FrameLayout{
      */
     public void removeEditText(){
         textViewLayout.removeAllViews();
-        editTv.setTag("");
+        editTv.setText("");
+        setScrollViewLayoutParams();
     }
     /**
      * 获取光标位置

@@ -43,6 +43,7 @@ public class ConfListenService extends Service implements IStatusChangeListener 
 
     @Override
     public void onConfStateChanged(Conf conf) {
+
     }
 
     @Override

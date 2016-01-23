@@ -31,4 +31,13 @@ public class LineUtils {
     public List<LineObj> getAllLines(){
         return lineObjManager.getAllLines();
     }
+
+    /**
+     * 通过线路Ｉｄ获取线路
+     * @param lineId
+     * @return
+     */
+    public LineObj getLineById(int lineId){
+        return lineObjManager.getLineById(lineId);
+    }
 }

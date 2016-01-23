@@ -65,6 +65,9 @@ public class ModelFragment extends Fragment implements View.OnClickListener{
             }
         });
 
+
+//        ImageOrTextMixed imageOrTextMixed = (ImageOrTextMixed) accountLv.getChildAt(0);
+//        imageOrTextMixed.setSelected(true);
     }
 
 

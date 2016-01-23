@@ -2,6 +2,7 @@ package com.example.hjiang.gactelphonedemo.activity;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -26,44 +28,10 @@ import com.example.hjiang.gactelphonedemo.util.Contants;
 import com.example.hjiang.gactelphonedemo.util.OtherUtils;
 import com.example.hjiang.gactelphonedemo.weight.DelEdit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
-
-
-
-    /** 用于测试git 无用的注释   */
-
-    /** 用于测试git 无用的注释   */
-
-    /** 用于测试git 无用的注释   */
-
-    /** 用于测试git 无用的注释   */
-    /** 用于测试git 无用的注释   */
-    /** 用于测试git 无用的注释   */
-
-    /** 用于测试git 无用的注释   *//** 用于测试git 无用的注释   */
-    /** 用于测试git 无用的注释   */
-    /** 用于测试git 无用的注释   */
-    /** 用于测试git 无用的注释   */
-
-
-
-    /** 用于测试git    */
-    /** 用于测试git    */
-    /** 用于测试git    */
-    /** 用于测试git    */   /** 用于测试git    */   /** 用于测试git    */   /** 用于测试git    */
-    /** 用于测试git    */
-    /** 用于测试git    */
-    /** 用于测试git    */
-    /** 用于测试git    */
-
-
-
-
-
-
-
 
     private GridView gridView;
     private DelEdit delEdit;
@@ -78,8 +46,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.e("--main--","onCreate");
         initView();
         setEditChange();
+        setInputNoShow();
     }
     @Override
     public void onAttachFragment(Fragment fragment) {
@@ -94,6 +64,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             modelFragment = (ModelFragment) fragment;
         }
 
+    }
+
+    /**
+     * 设置键盘强制不弹出
+     */
+    private void setInputNoShow(){
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(delEdit.getWindowToken(), 0); //强制隐藏键盘
     }
     /**
      * 初始化视图
@@ -115,6 +93,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * 设置拨号盘，拨号编辑框
      */
     private void setDials(){
+        Log.e("--main--","setDials");
         gridView = (GridView) findViewById(R.id.dials);
         delEdit = (DelEdit) findViewById(R.id.eidt_layout);
         callImage = (ImageView) findViewById(R.id.call_icon);
@@ -188,13 +167,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         return  isTransfer;
     }
 
+    private List<String> getAllPhoneNum(){
+        List<String> list = new ArrayList<String>();
+        for(int i=0;i<delEdit.getImagesText().size();i++){
+            list.add(delEdit.getImagesText().get(i));
+        }
+        if(!TextUtils.isEmpty(delEdit.getEditText())){
+            list.add(delEdit.getEditText());
+        }
+        return list;
+    }
+
     /**
      * 创建会议线路
      */
     private void makeConf(){
-        String callStr = delEdit.getEditText();
         Intent intent = new Intent();
-        intent.putExtra(Contants.PHONE_NUM,callStr);
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList(Contants.PHONE_LIST_KEY, (ArrayList<String>) getAllPhoneNum());
+        intent.putExtras(bundle);
         setResult(RESULT_CODE,intent);
         finish();
     }
@@ -220,7 +211,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             /** 按下联系人按钮*/
             case R.id.contact_btn:{
                 startActivityForResult(new Intent(this, ContactsActivity.class), CONTACTS_REQUEST_CODE);
-//                openContactView();
                 break;
             }
         }
@@ -244,30 +234,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         startActivity(intent);
     }
 
-    /**
-     * 打开联系人视图
-     */
-    private void openContactView() {
-//        ArrayList<ContentValues> data = new ArrayList<ContentValues>();
-//
-//        ContentValues row1 = new ContentValues();
-//        row1.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE);
-//        row1.put(ContactsContract.CommonDataKinds.Organization.COMPANY, "Android");
-//        data.add(row1);
-//
-//        ContentValues row2 = new ContentValues();
-//        row2.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
-//        row2.put(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_CUSTOM);
-//        row2.put(ContactsContract.CommonDataKinds.Email.LABEL, "Green Bot");
-//        row2.put(ContactsContract.CommonDataKinds.Email.ADDRESS, "android@android.com");
-//        data.add(row2);
-//
-//        Intent intent = new Intent(Intent.ACTION_INSERT, ContactsContract.Contacts.CONTENT_URI);
-//        intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
-//
-//        startActivity(intent);
-
-    }
 
 
     /**
@@ -284,14 +250,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (s.length() == 0) {//当编辑框为空时显示modelfragment页面
                     switchFragmentContent(R.id.lefl_slip_layout, modelFragment);
                     isSearchVisiable = false;
-                } else if (!isSearchVisiable&&s.length()!=0) {//当编辑框里的内容不为空的时候，并且SearchFragment没有显示时切换到SearchFragment
+                } else if (!isSearchVisiable && s.length() != 0) {//当编辑框里的内容不为空的时候，并且SearchFragment没有显示时切换到SearchFragment
                     switchFragmentContent(R.id.lefl_slip_layout, searchFragment);
                     isSearchVisiable = true;
                     setEditChangeSearch(s.toString());
-                }else if(isSearchVisiable&&s.length()!=0) {//当编辑框内容不为空并且SearchFragment正在显示时
+                } else if (isSearchVisiable && s.length() != 0) {//当编辑框内容不为空并且SearchFragment正在显示时
                     setEditChangeSearch(s.toString());
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -319,10 +286,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if(resultCode == Activity.RESULT_OK && requestCode == CONTACTS_REQUEST_CODE){
             Bundle bundle = data.getExtras();
             List<String> phoneList = bundle.getStringArrayList(Contants.PHONE_LIST_KEY);
-            Log.e("--main--",phoneList.toString());
             for(int i = 0;i<phoneList.size();i++){
                 delEdit.setAddTextView(phoneList.get(i));
             }
         }
     }
+
 }

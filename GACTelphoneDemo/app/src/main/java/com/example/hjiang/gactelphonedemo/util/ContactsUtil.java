@@ -139,6 +139,24 @@ public class ContactsUtil {
         return bitmap;
     }
 
+    /**
+     * 通过电话号码获取头像
+     * @param phoneNum
+     * @return
+     */
+    public Bitmap getPhotoByPhone(String phoneNum){
+        Bitmap bitmap = null;
+        Uri uri = ContactsContract.Data.CONTENT_URI;
+        String whereStr = "raw_contact_id in(select raw_contact_id from data where mimetype_id='5' and data1=?)";
+        Cursor cursor = contentResolver.query(uri, new String[]{"data15"}, whereStr, new String[]{phoneNum}, null);
+        if(cursor.getCount()>0) {
+            cursor.moveToNext();
+            byte[] bytes = cursor.getBlob(cursor.getColumnIndex("data15"));
+            InputStream inputStream = new ByteArrayInputStream(bytes);
+            bitmap = BitmapFactory.decodeStream(inputStream);
+        }
+        return bitmap;
+    }
 
     /**
      * 通过displayName获取电话号码
