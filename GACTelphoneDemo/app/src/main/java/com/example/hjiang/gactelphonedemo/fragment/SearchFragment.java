@@ -3,16 +3,16 @@ package com.example.hjiang.gactelphonedemo.fragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.CallLog;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,6 +33,8 @@ public class SearchFragment extends Fragment{
     private ListView listView;
     private SearchAdapter adapter;
     private TextView phoneTv;
+    private LinearLayout headLayout;
+    private TextView searchPhoneTv;
     private  List<SearchBean> list = new ArrayList<SearchBean>();
 
     @Override
@@ -46,6 +48,17 @@ public class SearchFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.framgent_search,container,false);
         phoneTv = (TextView) view.findViewById(R.id.search_phoneTv);
+        searchPhoneTv = (TextView) view.findViewById(R.id.search_phoneTv);
+        headLayout = (LinearLayout) view.findViewById(R.id.head_layout);
+        headLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!TextUtils.isEmpty(searchPhoneTv.getText())){
+                    MainActivity mainActivity = (MainActivity) context;
+                    mainActivity.setDelEdit(searchPhoneTv.getText().toString());
+                }
+            }
+        });
         initListView(view);
         return view;
     }
@@ -66,23 +79,25 @@ public class SearchFragment extends Fragment{
         });
     }
 
-    public void search(String keyword) {
+    public void search(final String keyword) {
         phoneTv.setText(keyword);
-        new AsyncTask<String,Void,List<SearchBean>>(){
+        new Thread(new Runnable() {
             @Override
-            protected List<SearchBean> doInBackground(String... params) {
-                list = setSearchData(params[0]);
-                return list;
+            public void run() {
+                list = setSearchData(keyword);
+                handler.sendEmptyMessage(0x12);
             }
-
-            @Override
-            protected void onPostExecute(List<SearchBean> aVoid) {
-                adapter.setListChange(list);
-                super.onPostExecute(aVoid);
-            }
-        }.execute(keyword);
+        }).start();
     }
 
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == 0x12){
+                adapter.setListChange(list);
+            }
+        }
+    };
 
     /**
      * 获取模糊匹配的数据
@@ -97,33 +112,10 @@ public class SearchFragment extends Fragment{
             SearchBean searchBean = new SearchBean();
             String phoneNumStr = historyCursor.getString(historyCursor.getColumnIndex("origin_number"));
             searchBean.setPhoneNum(phoneNumStr);
-            if(!TextUtils.isEmpty(phoneNumStr)) {
-                List<String> displayNameList = ContactsUtil.getInstance(context).getDisplayNameByPhone(phoneNumStr);
-                if(displayNameList.size()>0) {
-                    searchBean.setDisplayName(displayNameList.toString());
-                }else{
-                    searchBean.setDisplayName(phoneNumStr);
-                }
-            }
-            switch (historyCursor.getInt(historyCursor.getColumnIndex("type"))){
-                case CallLog.Calls.INCOMING_TYPE:{
-                    searchBean.setBitmap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.line_ringing_normal));
-                    break;
-                }
-                case CallLog.Calls.MISSED_TYPE:{
-                    searchBean.setBitmap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.miss_call));
-                    break;
-                }
-                case CallLog.Calls.OUTGOING_TYPE:{
-                    searchBean.setBitmap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.line_calling_normal));
-                    break;
-                }
-            }
+            searchBean.setType(historyCursor.getInt(historyCursor.getColumnIndex("type")));
             list.add(searchBean);
         }
         historyCursor.close();
-
-
         /** 通过模糊匹配查找出来的联系人*/
         Cursor cursor = ContactsUtil.getInstance(context).getCursorByVaguePhoneNum(phoneNum);
         while (cursor.getCount()!=0&&cursor.moveToNext()) {
@@ -133,8 +125,7 @@ public class SearchFragment extends Fragment{
             if(displayNameStr!=null) {
                 searchBean.setPhoneNum(ContactsUtil.getInstance(context).getPhoneNumsByDisplayName(displayNameStr).toString());
             }
-            long contactId = ContactsUtil.getInstance(context).getContactIdByRawId(cursor.getLong(cursor.getColumnIndex("_id")));
-            Bitmap bitmap = ContactsUtil.getInstance(context).getPhotoByContactId(contactId);
+            Bitmap bitmap = ContactsUtil.getInstance(context).getPhotoByRawId(cursor.getString(cursor.getColumnIndex("_id")));
             searchBean.setBitmap(bitmap);
             list.add(searchBean);
         }

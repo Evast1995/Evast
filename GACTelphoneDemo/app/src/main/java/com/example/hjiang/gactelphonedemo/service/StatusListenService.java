@@ -103,13 +103,15 @@ public class StatusListenService extends Service implements IStatusChangeListene
 
     /**
      * 发送线路变化的广播
-     * @param status
+     * @param lineObj
      */
-    private void sendBroadCastForStautsChange(int status,LineObj lineObj){
+    private void sendBroadCastForStautsChange(LineObj lineObj){
         Intent intent = new Intent(Contants.BROADCAST_ACTION);
         Bundle bundle = new Bundle();
+//        Log.e("--main--","lineObject Status:"+lineObj.getState()+"lineObject Id:"+lineObj.getId());
         if(lineObj.getId()!=-1) {
             bundle.putInt(Contants.LINEOBJ_KEY, lineObj.getId());
+            bundle.putInt(Contants.CALL_STATUS,lineObj.getState());
             intent.putExtras(bundle);
             sendBroadcast(intent);
         }
@@ -119,7 +121,7 @@ public class StatusListenService extends Service implements IStatusChangeListene
     public void onLineStateChanged(List<LineObj> lines, LineObj line) {
         Boolean isInConf = line.getIsInConf();
         /** 发送状态变化广播*/
-        sendBroadCastForStautsChange(line.getState(), line);
+        sendBroadCastForStautsChange(line);
         /** 根据线路状态的改变情况来做对应的相关操作*/
         switch (line.getState()){
             /** 响铃状态*/
@@ -135,8 +137,6 @@ public class StatusListenService extends Service implements IStatusChangeListene
             case LineObjManager.STATUS_CONNECTED:{
                 if(!isInConf) {
                     openConnectingActivity(line);
-                }else{
-
                 }
                 break;
             }

@@ -10,7 +10,12 @@ public class SearchBean {
     private String displayName;
     private String phoneNum;
     private Bitmap bitmap;
-
+    /** 类型　指当bitmap为空的时候 type 为　１:联系人无头像默认头像 2:历史记录未接　３：历史记录拨出　４：拨打错误*/
+    private int type;
+    public static final int NO_HEAD = 0;
+    public static final int INCOMING_TYPE = 1;
+    public static final int OUTGOING_TYPE = 2;
+    public static final int MISSED_TYPE = 3;
     public Bitmap getBitmap() {
         return bitmap;
     }
@@ -19,13 +24,12 @@ public class SearchBean {
         this.bitmap = bitmap;
     }
 
-    @Override
-    public String toString() {
-        return "SearchBean{" +
-                "displayName='" + displayName + '\'' +
-                ", phoneNum='" + phoneNum + '\'' +
-                ", bitmap=" + bitmap +
-                '}';
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getPhoneNum() {
@@ -45,4 +49,13 @@ public class SearchBean {
         this.displayName = displayName;
     }
 
+    @Override
+    public String toString() {
+        return "SearchBean{" +
+                "displayName='" + displayName + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", bitmap=" + bitmap +
+                ", type=" + type +
+                '}';
+    }
 }

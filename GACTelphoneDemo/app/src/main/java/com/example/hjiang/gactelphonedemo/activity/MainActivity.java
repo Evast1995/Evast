@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -46,24 +45,29 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("--main--","onCreate");
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         initView();
         setEditChange();
         setInputNoShow();
     }
+
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
         // add a fragment to current activity window.
         // fragment instance or args.
         // which fragment it is.
-
         if (fragment instanceof SearchFragment) {
             searchFragment = (SearchFragment) fragment;
         } else if (fragment instanceof ModelFragment) {
             modelFragment = (ModelFragment) fragment;
+            super.mFragmentContent = modelFragment;
         }
-
     }
 
     /**
@@ -93,7 +97,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * 设置拨号盘，拨号编辑框
      */
     private void setDials(){
-        Log.e("--main--","setDials");
         gridView = (GridView) findViewById(R.id.dials);
         delEdit = (DelEdit) findViewById(R.id.eidt_layout);
         callImage = (ImageView) findViewById(R.id.call_icon);
@@ -107,8 +110,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 delEdit.addString(str);
             }
         });
-        modelFragment = new ModelFragment();
-        searchFragment = new SearchFragment();
+
+        if(modelFragment == null) {
+            modelFragment = new ModelFragment();
+        }
+        if(searchFragment == null) {
+            searchFragment = new SearchFragment();
+        }
+
         switchFragmentContent(R.id.lefl_slip_layout, modelFragment);
     }
 
@@ -119,7 +128,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         String callStr = delEdit.getEditText();
         List<String> list = delEdit.getImagesText();
         int position = list.size();
-        if(position>1||(position == 1&&!TextUtils.isEmpty(callStr))){//表示成员有两人及其以上 则开启会议
+        if(position>1||(position == 1&&!TextUtils.isEmpty(callStr))||isInConfLine()){//表示成员有两人及其以上 则开启会议 或者已开启一个会议
             while(position>0){
                 String phoneNum =list.get(position-1);
                 CallUtils.getInstance(this).confCall(MyApplication.localId,phoneNum,phoneNum,MyApplication.callModel);

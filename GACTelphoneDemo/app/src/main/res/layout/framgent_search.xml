@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent" android:background="@color/halftransparent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" android:id="@+id/head_layout">
         <ImageView
             android:layout_width="@dimen/search_item_image_dimen" android:src="@mipmap/conf_incoming_default_pic"
             android:layout_height="@dimen/search_item_image_dimen" android:layout_gravity="center_vertical"

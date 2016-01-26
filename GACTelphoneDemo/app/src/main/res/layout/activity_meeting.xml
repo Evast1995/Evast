@@ -156,6 +156,15 @@
                 android:id="@+id/people_remove" android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:src="@mipmap/conf_member_remove_pressed"
                 android:layout_marginLeft="@dimen/meeting_tiplayout_image_marginleft"/>
+            <ImageView
+                android:id="@+id/people_pause" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:background="@drawable/hold_bg"
+                android:layout_marginLeft="@dimen/meeting_tiplayout_image_marginleft"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/people_mute" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:background="@drawable/mute_bg"
+                android:layout_marginLeft="@dimen/meeting_tiplayout_image_marginleft"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

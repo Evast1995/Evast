@@ -1,6 +1,7 @@
 package com.example.hjiang.gactelphonedemo.fragment;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,10 +17,11 @@ import com.base.module.call.CallManager;
 import com.base.module.call.account.CallAccount;
 import com.example.hjiang.gactelphonedemo.MyApplication;
 import com.example.hjiang.gactelphonedemo.R;
-import com.example.hjiang.gactelphonedemo.adapter.AccountAdapter;
 import com.example.hjiang.gactelphonedemo.adapter.PopupAdatper;
 import com.example.hjiang.gactelphonedemo.util.AccountUtils;
+import com.example.hjiang.gactelphonedemo.weight.ImageOrTextMixed;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,11 +29,13 @@ import java.util.List;
  */
 public class ModelFragment extends Fragment implements View.OnClickListener{
 
+    private View view;
     private Button modelBtn;
-    private ListView accountLv;
     private Context context;
-    private AccountAdapter accountAdapter;
-    private PopupWindow popupWindow;
+    /** 将当前话机所有本地账号Ｉｄ存储起来*/
+    private List<Integer> list = new ArrayList<Integer>();
+
+    private LinearLayout accountLayout;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,65 +44,96 @@ public class ModelFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_model, container, false);
+        view = inflater.inflate(R.layout.fragment_model, container, false);
         modelBtn = (Button) view.findViewById(R.id.model_btn);
-        accountLv = (ListView) view.findViewById(R.id.account_list);
+        accountLayout = (LinearLayout) view.findViewById(R.id.account_layout);
         modelBtn.setOnClickListener(this);
-        setLineSv();
+        setLineData();
         return view;
     }
 
     /**
-     * 设置显示所有线路
+     * 设置账号显示(动态添加账号控件)
      */
-    private void setLineSv(){
+    private void setLineData() {
         List<CallAccount> accountList = AccountUtils.getInstance(context).getAllUsableCallAccounts();
-        accountAdapter = new AccountAdapter(context,accountList);
-        accountLv.setAdapter(accountAdapter);
-        accountLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                view.setSelected(true);
-                CallAccount callAccount = (CallAccount) accountAdapter.getItem(position);
-                MyApplication.localId = callAccount.getLocalId();
-                MyApplication.localPhone = callAccount.getSipUserId();
-            }
-        });
-
-
-//        ImageOrTextMixed imageOrTextMixed = (ImageOrTextMixed) accountLv.getChildAt(0);
-//        imageOrTextMixed.setSelected(true);
+        for (int i = 0; i < accountList.size(); i++) {
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(0,0,0,1);
+            ImageOrTextMixed imageOrTextMixed = new ImageOrTextMixed(context);
+            imageOrTextMixed.setLayoutParams(layoutParams);
+            CallAccount callAccount = accountList.get(i);
+            int spiUserId = callAccount.getLocalId();
+            String localName = callAccount.getSipUserId();
+            imageOrTextMixed.setTextOne(String.valueOf(spiUserId));
+            imageOrTextMixed.setTextTwo(localName);
+            imageOrTextMixed.setImageBackground(R.mipmap.account_icon);
+            imageOrTextMixed.setBackgroundResource(R.drawable.select_account_bg);
+            imageOrTextMixed.setPadding(2, 2, 2, 2);
+            imageOrTextMixed.setId(callAccount.getLocalId());
+            imageOrTextMixed.setTag(callAccount.getSipUserId());
+            list.add(callAccount.getLocalId());
+            imageOrTextMixed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyApplication.localId = v.getId();
+                    MyApplication.localPhone = (String) v.getTag();
+                    setAllNotSelect();
+                    v.setSelected(!v.isSelected());
+                }
+            });
+            accountLayout.addView(imageOrTextMixed);
+        }
+        /** 设置账号默认位第一个账号选中*/
+        view.findViewById(list.get(0)).setSelected(true);
+        MyApplication.localId = view.findViewById(list.get(0)).getId();
+        MyApplication.localPhone = (String) view.findViewById(list.get(0)).getTag();
     }
 
+    /**
+     * 将所有账号设置为不选中
+     */
+    private void setAllNotSelect(){
+        for(int i=0;i<list.size();i++){
+            view.findViewById(list.get(i)).setSelected(false);
+        }
+    }
 
     /**
-     * 设置模式按钮点击事件
+     * s设置模式按钮点击事件
      */
-    private void setModelBtnOnClick(){
-        View view = LayoutInflater.from(context).inflate(R.layout.popup_layout,null);
+    public void showPopupWindow(){
+        View view = LayoutInflater.from(context).inflate(R.layout.popup_layout, null);
         ListView listView = (ListView) view.findViewById(R.id.popup_list);
         listView.setAdapter(new PopupAdatper(context));
+        final PopupWindow popup=new PopupWindow(view,ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        popup.setFocusable(true);
+        popup.setOutsideTouchable(true);
+        popup.update();
+        popup.setBackgroundDrawable(new BitmapDrawable());
+        popup.showAsDropDown(modelBtn);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     /** 选择呼叫模式*/
                     case 0: {
-                        setPopupDismissed();
+                        popup.dismiss();
                         MyApplication.callModel = CallManager.CALLMODE_SIP;
                         modelBtn.setText(R.string.call);
                         break;
                     }
                     /** 选择Paging模式*/
                     case 1: {
-                        setPopupDismissed();
+                        popup.dismiss();
                         MyApplication.callModel = CallManager.CALLMODE_PAGING;
                         modelBtn.setText(R.string.paging);
                         break;
                     }
                     /** 选着IP呼叫模式*/
                     case 2: {
-                        setPopupDismissed();
+                        popup.dismiss();
                         MyApplication.callModel = CallManager.CALLMODE_IP;
                         modelBtn.setText(R.string.ip_call);
                         break;
@@ -106,26 +141,13 @@ public class ModelFragment extends Fragment implements View.OnClickListener{
                 }
             }
         });
-        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT,false);
-        /** 设置popupwindow点击外面消失*/
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.showAsDropDown(modelBtn);
-    }
-
-    /**
-     * 设置popupWindow的消失
-     */
-    private void setPopupDismissed(){
-        if(popupWindow.isShowing()){
-            popupWindow.dismiss();
-        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.model_btn:{
-                setModelBtnOnClick();
+                showPopupWindow();
                 break;
             }
         }

@@ -1,6 +1,8 @@
 package com.example.hjiang.gactelphonedemo.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.hjiang.gactelphonedemo.R;
 import com.example.hjiang.gactelphonedemo.bean.SearchBean;
+import com.example.hjiang.gactelphonedemo.util.ContactsUtil;
+import com.example.hjiang.gactelphonedemo.util.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,11 +69,42 @@ public class SearchAdapter extends BaseAdapter{
         SearchBean searchBean = list.get(position);
         if(searchBean.getBitmap()!=null){
             viewHolder.imageHead.setImageBitmap(searchBean.getBitmap());
-        }else if(searchBean!=null){
-            viewHolder.imageHead.setImageResource(R.mipmap.conf_incoming_default_pic);
+        }else if(searchBean!=null ){
+            Bitmap bitmap;
+            switch (searchBean.getType()){
+                case SearchBean.NO_HEAD:{
+                    bitmap = ImageUtils.getBitmapByResId(R.mipmap.conf_incoming_default_pic, context);
+                    break;
+                }
+                case SearchBean.INCOMING_TYPE:{
+                    bitmap = ImageUtils.getBitmapByResId(R.mipmap.line_ringing_normal,context);
+                    break;
+                }
+                case SearchBean.OUTGOING_TYPE:{
+                    bitmap = ImageUtils.getBitmapByResId(R.mipmap.miss_call,context);
+                    break;
+                }
+                case SearchBean.MISSED_TYPE:{
+                    bitmap = ImageUtils.getBitmapByResId(R.mipmap.line_calling_normal,context);
+                    break;
+                }
+                default:{
+                    bitmap = ImageUtils.getBitmapByResId(R.mipmap.conf_incoming_default_pic, context);
+                }
+            }
+            viewHolder.imageHead.setImageBitmap(bitmap);
+        }
+        String phoneNumStr = searchBean.getPhoneNum();
+        if(TextUtils.isEmpty(searchBean.getDisplayName())) {
+            List<String> displayNameList = ContactsUtil.getInstance(context).getDisplayNameByPhone(phoneNumStr);
+            if(displayNameList.size()>0) {
+                searchBean.setDisplayName(displayNameList.toString());
+            }else{
+                searchBean.setDisplayName(phoneNumStr);
+            }
         }
         viewHolder.nameTv.setText(searchBean.getDisplayName());
-        viewHolder.phoneTv.setText(searchBean.getPhoneNum());
+        viewHolder.phoneTv.setText(phoneNumStr);
         return convertView;
     }
     class ViewHolder{

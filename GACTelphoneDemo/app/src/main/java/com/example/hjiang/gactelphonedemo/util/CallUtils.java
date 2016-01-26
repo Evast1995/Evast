@@ -1,7 +1,6 @@
 package com.example.hjiang.gactelphonedemo.util;
 
 import android.content.Context;
-import android.os.AsyncTask;
 
 import com.base.module.call.CallManager;
 import com.base.module.call.ICallStatusListener;
@@ -23,7 +22,6 @@ public class CallUtils {
         return callUtils;
     }
 
-
     /**
      * 拨出电话
      * @param accountLocalId 本地的账号ID
@@ -32,14 +30,7 @@ public class CallUtils {
      * @param callMode 拨号类型
      */
     public void makeCall(final int accountLocalId, final String originNumber, final String dialOutNumber, final int callMode){
-        new AsyncTask<Void,Void,Void>(){
-            @Override
-            protected Void doInBackground(Void... params) {
-                callManager.call(accountLocalId, originNumber, dialOutNumber, false, callMode);
-                return null;
-            }
-        }.execute();
-
+        callManager.call(accountLocalId, originNumber, dialOutNumber, false, callMode);
     }
 
     /**
@@ -60,14 +51,7 @@ public class CallUtils {
      * @param isAddToConf 是否添加到会议，会议会参与混音
      */
     public void accept(final int lineId, final int audioMode, final boolean isAddToConf){
-        new AsyncTask<Void,Void,Void>(){
-            @Override
-            protected Void doInBackground(Void... params) {
-                callManager.accept(lineId, true, audioMode, isAddToConf);
-                return null;
-            }
-        }.execute();
-
+        callManager.accept(lineId, true, audioMode, isAddToConf);
     }
 
     /**
@@ -75,13 +59,7 @@ public class CallUtils {
      * @param lineId 本地线路ID
      */
     public void reject(int lineId){
-        new AsyncTask<Integer,Void,Void>(){
-            @Override
-            protected Void doInBackground(Integer... params) {
-                callManager.reject(params[0]);
-                return null;
-            }
-        }.execute(lineId);
+        callManager.reject(lineId);
     }
 
     /**
@@ -89,13 +67,7 @@ public class CallUtils {
      * @param lineId
      */
     public void endCall(int lineId){
-        new AsyncTask<Integer,Void,Void>(){
-            @Override
-            protected Void doInBackground(Integer... params) {
-                callManager.endCall(params[0]);
-                return null;
-            }
-        }.execute(lineId);
+        callManager.endCall(lineId);
     }
 
     /**
@@ -210,5 +182,17 @@ public class CallUtils {
     public void setIsMutedAll(Boolean ismIsMutedAll){
         callManager.setIsMutedAll(ismIsMutedAll);
     }
+
+    /**
+     * 设置线路静音(远程的静音 远程账号不能听到说话)
+     * @param lineId
+     * @param isMuted
+     * @return
+     */
+    public  boolean muteUnmuteLocal(int lineId, boolean isMuted){
+         return callManager.muteUnmuteLocal(lineId,isMuted);
+    }
+
+
 }
 

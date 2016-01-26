@@ -40,6 +40,7 @@
     <string name="phone_isnull">电话号码为空</string>
     <string name="most_member">您最多可以添加6个成员</string>
     <string name="change_account">选择账号</string>
+    <string name="failed_mute">静音失败</string>
 
     <string name="group_people">组员:%1$s</string>
     <string name="peoplename">姓名：%1$s</string>

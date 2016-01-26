@@ -21,9 +21,11 @@ import java.util.List;
  * Created by hjiang on 16-1-19.
  */
 public class ContactsUtil {
+    private static Context context;
     private static ContentResolver contentResolver;
     private ContactsUtil(Context context){
         contentResolver = context.getContentResolver();
+        this.context=  context;
     }
     private static ContactsUtil contactsUtil;
     public synchronized static ContactsUtil getInstance(Context context){
@@ -94,10 +96,18 @@ public class ContactsUtil {
      */
     public List<String> getDisplayNameByPhone(String phoneNumStr){
         List<String> list = new ArrayList<String>();
-        List<Integer> rawIds = getRawIdsByPhoneNum(phoneNumStr);
-        for(int i=0;i<rawIds.size();i++){
-            list.add(getDisplayNameByRawId(rawIds.get(i)));
+//        List<Integer> rawIds = getRawIdsByPhoneNum(phoneNumStr);
+//        for(int i=0;i<rawIds.size();i++){
+//            list.add(getDisplayNameByRawId(rawIds.get(i)));
+//        }
+
+        Uri uri = ContactsContract.Data.CONTENT_URI;
+        String whereStr = "raw_contact_id in (select raw_contact_id from data where mimetype = '5' and data1=?) ";
+        Cursor cursor = contentResolver.query(uri,new String[]{"data1"},whereStr,new String[]{phoneNumStr},null);
+        while(cursor.moveToNext()){
+            list.add(cursor.getString(0));
         }
+        cursor.close();
         return list;
     }
 
@@ -122,7 +132,7 @@ public class ContactsUtil {
         Uri uri = ContactsContract.RawContacts.CONTENT_URI;
         String whereStr = "_id in" +
                 "(select raw_contact_id from data where mimetype_id='5' and data1 like '"+phoneNum+"%')";
-        Cursor cursor = contentResolver.query(uri,null,whereStr,null,null);
+        Cursor cursor = contentResolver.query(uri, null, whereStr, null, null);
         return cursor;
     }
 
@@ -140,6 +150,26 @@ public class ContactsUtil {
     }
 
     /**
+     * 通过rawID获bitmap
+     * @param rawID
+     * @return
+     */
+    public Bitmap getPhotoByRawId(String rawID){
+        Bitmap bitmap = null;
+        Uri uri = ContactsContract.Data.CONTENT_URI;
+        String whereStr = "raw_contact_id = ? and mimetype = '10'";
+        Cursor cursor = contentResolver.query(uri, new String[]{"data15"}, whereStr,
+                new String[]{rawID}, null);
+        if(cursor.getCount()>0){
+            cursor.moveToNext();
+            byte[] bytes = cursor.getBlob(cursor.getColumnIndex("data15"));
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+            bitmap = BitmapFactory.decodeStream(inputStream);
+        }
+        return bitmap;
+    }
+
+    /**
      * 通过电话号码获取头像
      * @param phoneNum
      * @return
@@ -147,16 +177,22 @@ public class ContactsUtil {
     public Bitmap getPhotoByPhone(String phoneNum){
         Bitmap bitmap = null;
         Uri uri = ContactsContract.Data.CONTENT_URI;
-        String whereStr = "raw_contact_id in(select raw_contact_id from data where mimetype_id='5' and data1=?)";
+        String whereStr =
+                "raw_contact_id in(select raw_contact_id from data where mimetype_id='5' and data1=?) and mimetype_id='10'";
         Cursor cursor = contentResolver.query(uri, new String[]{"data15"}, whereStr, new String[]{phoneNum}, null);
         if(cursor.getCount()>0) {
             cursor.moveToNext();
             byte[] bytes = cursor.getBlob(cursor.getColumnIndex("data15"));
-            InputStream inputStream = new ByteArrayInputStream(bytes);
-            bitmap = BitmapFactory.decodeStream(inputStream);
+            if(bytes!=null) {
+                InputStream inputStream = new ByteArrayInputStream(bytes);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                bitmap = BitmapFactory.decodeStream(inputStream,null,options);
+            }
         }
+        cursor.close();
         return bitmap;
     }
+
 
     /**
      * 通过displayName获取电话号码
@@ -237,6 +273,7 @@ public class ContactsUtil {
             changeContactsBean.setIsChecked(false);
             list.add(changeContactsBean);
         }
+        cursor.close();
         return list;
     }
 }

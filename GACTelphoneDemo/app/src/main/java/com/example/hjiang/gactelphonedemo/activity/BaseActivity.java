@@ -9,25 +9,18 @@ import android.support.v7.app.ActionBarActivity;
  * Created by hjiang on 16-1-8.
  */
 public class BaseActivity extends ActionBarActivity{
-    private Fragment mFragmentContent;
+    public Fragment mFragmentContent;
 
-    /**
-     * 创建时候将创建的activity添加到集合
-     * @param savedInstanceState
-     */
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
-    /**
-     * 销毁时候
-     */
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
-
 
     /**
      * 切换Fragment

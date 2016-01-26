@@ -15,7 +15,15 @@
             android:layout_margin="@dimen/model_btn_margin" android:text="@string/call"
             android:background="@drawable/drop_down_box_bg"/>
     </LinearLayout>
-    <ListView
-        android:id="@+id/account_list" android:layout_width="match_parent"
-        android:layout_height="0dp" android:layout_weight="4"/>
+    <!--<ListView-->
+        <!--android:id="@+id/account_list" android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp" android:layout_weight="4"/>-->
+    <ScrollView
+        android:layout_width="match_parent" android:layout_weight="4"
+        android:layout_height="0dp">
+        <LinearLayout
+            android:id="@+id/account_layout" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:orientation="vertical"/>
+    </ScrollView>
+
 </LinearLayout>
