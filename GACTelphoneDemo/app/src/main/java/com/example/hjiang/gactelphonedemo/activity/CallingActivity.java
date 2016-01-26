@@ -66,6 +66,7 @@ public class CallingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.add_meeting:{
+                CallUtils.getInstance(this).confAddLine(lineObj.getId());
                 break;
             }
             case R.id.reject:{

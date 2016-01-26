@@ -106,6 +106,21 @@ public class SearchFragment extends Fragment{
      */
     private List<SearchBean> setSearchData(String phoneNum){
         List<SearchBean> list = new ArrayList<SearchBean>();
+        /** 通过模糊匹配查找出来的联系人*/
+        Cursor cursor = ContactsUtil.getInstance(context).getCursorByVaguePhoneNum(phoneNum);
+        while (cursor.getCount()!=0&&cursor.moveToNext()) {
+            SearchBean searchBean = new SearchBean();
+            String displayNameStr = cursor.getString(cursor.getColumnIndex("display_name"));
+            searchBean.setDisplayName(displayNameStr);
+            if(displayNameStr!=null) {
+                searchBean.setPhoneNum(ContactsUtil.getInstance(context).getPhoneNumsByDisplayName(displayNameStr).get(0));
+            }
+            Bitmap bitmap = ContactsUtil.getInstance(context).getPhotoByRawId(cursor.getString(cursor.getColumnIndex("_id")));
+            searchBean.setBitmap(bitmap);
+            list.add(searchBean);
+        }
+        cursor.close();
+
         /** 通过模糊匹配查找出来的历史记录*/
         Cursor historyCursor =  ContactsUtil.getInstance(context).getCallHistroyByVaguePhoneNum(phoneNum);
         while(historyCursor.getCount()!=0&&historyCursor.moveToNext()){
@@ -116,20 +131,6 @@ public class SearchFragment extends Fragment{
             list.add(searchBean);
         }
         historyCursor.close();
-        /** 通过模糊匹配查找出来的联系人*/
-        Cursor cursor = ContactsUtil.getInstance(context).getCursorByVaguePhoneNum(phoneNum);
-        while (cursor.getCount()!=0&&cursor.moveToNext()) {
-            SearchBean searchBean = new SearchBean();
-            String displayNameStr = cursor.getString(cursor.getColumnIndex("display_name"));
-            searchBean.setDisplayName(displayNameStr);
-            if(displayNameStr!=null) {
-                searchBean.setPhoneNum(ContactsUtil.getInstance(context).getPhoneNumsByDisplayName(displayNameStr).toString());
-            }
-            Bitmap bitmap = ContactsUtil.getInstance(context).getPhotoByRawId(cursor.getString(cursor.getColumnIndex("_id")));
-            searchBean.setBitmap(bitmap);
-            list.add(searchBean);
-        }
-        cursor.close();
         return list;
     }
 

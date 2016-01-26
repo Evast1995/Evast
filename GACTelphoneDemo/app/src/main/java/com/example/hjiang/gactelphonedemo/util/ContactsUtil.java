@@ -96,13 +96,9 @@ public class ContactsUtil {
      */
     public List<String> getDisplayNameByPhone(String phoneNumStr){
         List<String> list = new ArrayList<String>();
-//        List<Integer> rawIds = getRawIdsByPhoneNum(phoneNumStr);
-//        for(int i=0;i<rawIds.size();i++){
-//            list.add(getDisplayNameByRawId(rawIds.get(i)));
-//        }
-
         Uri uri = ContactsContract.Data.CONTENT_URI;
-        String whereStr = "raw_contact_id in (select raw_contact_id from data where mimetype = '5' and data1=?) ";
+        String whereStr = "raw_contact_id in (select raw_contact_id from data where mimetype_id = '5' " +
+                "and data1=?) and mimetype_id = '7'";
         Cursor cursor = contentResolver.query(uri,new String[]{"data1"},whereStr,new String[]{phoneNumStr},null);
         while(cursor.moveToNext()){
             list.add(cursor.getString(0));
@@ -157,7 +153,7 @@ public class ContactsUtil {
     public Bitmap getPhotoByRawId(String rawID){
         Bitmap bitmap = null;
         Uri uri = ContactsContract.Data.CONTENT_URI;
-        String whereStr = "raw_contact_id = ? and mimetype = '10'";
+        String whereStr = "raw_contact_id = ? and mimetype_id = '10'";
         Cursor cursor = contentResolver.query(uri, new String[]{"data15"}, whereStr,
                 new String[]{rawID}, null);
         if(cursor.getCount()>0){
@@ -166,6 +162,7 @@ public class ContactsUtil {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
             bitmap = BitmapFactory.decodeStream(inputStream);
         }
+        cursor.close();
         return bitmap;
     }
 
@@ -276,5 +273,6 @@ public class ContactsUtil {
         cursor.close();
         return list;
     }
+
 }
 
