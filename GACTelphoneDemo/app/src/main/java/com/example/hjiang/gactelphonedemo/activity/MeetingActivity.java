@@ -91,8 +91,8 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
 
     /** 选着了第几个位置*/
     private int position = 0;
+
     public static final int NO_PEOPLE = -1;
-    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -759,7 +759,6 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
      * 当按住返回时候将该页面放在通知栏中
      */
     private void setShowInNotification(){
-        Log.e("--main--","setShowInNotification");
         notificationManager =
                 (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);

@@ -6,4 +6,6 @@
         <attr name = "text_two_text" format="reference"/>
         <attr name = "selection" format="boolean"/>
     </declare-styleable>
+    
+
 </resources>

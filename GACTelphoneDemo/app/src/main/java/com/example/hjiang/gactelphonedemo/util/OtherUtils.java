@@ -6,7 +6,11 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -81,4 +85,51 @@ public class OtherUtils {
 
         return false;
     }
+
+    /**
+     * 分钟转化为毫秒
+     * @param minute
+     * @return
+     */
+    public static long minuteTomillionSecond(long minute){
+        return minute*60*1000;
+    }
+
+
+    /**
+     * 获取当天　某个时间的　时间搓　
+     * @param hour　当天几点
+     * @param minute　当天几分
+     * @return
+     */
+    public static long getNowDayCurrent(int hour,int minute){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        String timeStr=""+year+"年"+month+"月"+day+"日"+hour+"时"+minute+"分";
+        long timeCurrent = getTime(timeStr);
+
+        return timeCurrent;
+    }
+
+    /**
+     * 通过字符串获取时间戳
+     * @param timeStr
+     * @return
+     */
+    public static long getTime(String timeStr){
+        long timeCurrent = 0L;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
+        Date date = null;
+        try {
+            date = sdf.parse(timeStr);
+            timeCurrent = date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timeCurrent;
+    }
+
 }

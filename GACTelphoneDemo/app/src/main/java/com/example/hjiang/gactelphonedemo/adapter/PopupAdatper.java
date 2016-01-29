@@ -15,6 +15,7 @@ import com.example.hjiang.gactelphonedemo.R;
 public class PopupAdatper extends BaseAdapter{
     private Context context;
     private String[] arrays;
+
     public PopupAdatper(Context context){
         this.context = context;
         arrays =context.getResources().getStringArray(R.array.call_model);
@@ -46,6 +47,7 @@ public class PopupAdatper extends BaseAdapter{
             textView = (TextView) convertView.getTag();
         }
         textView.setText(arrays[position]);
+
         return convertView;
     }
 }

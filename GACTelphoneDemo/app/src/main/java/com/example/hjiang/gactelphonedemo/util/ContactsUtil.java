@@ -2,6 +2,7 @@ package com.example.hjiang.gactelphonedemo.util;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -9,8 +10,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
+import android.provider.Schedule;
+import android.util.Log;
 
 import com.example.hjiang.gactelphonedemo.bean.ChangeContactsBean;
+import com.example.hjiang.gactelphonedemo.bean.MeetingBean;
+import com.example.hjiang.gactelphonedemo.bean.MemberBean;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -274,5 +279,75 @@ public class ContactsUtil {
         return list;
     }
 
+
+
+
+
+    /** ---------------------------------------会议工具--------------------------------------------------------**/
+
+
+    private Schedule schedule = new Schedule();
+
+
+    /**
+     * 添加预约会议
+     * @param meetingBean
+     * @param list
+     */
+    public void insertMeetings(MeetingBean meetingBean,List<MemberBean> list){
+        insertMeetingsTable(meetingBean);
+        insertMembersTable(list);
+    }
+
+    /**
+     * 添加预约会议中　会议表中的数据
+     * @param meetingBean
+     */
+    public void insertMeetingsTable(MeetingBean meetingBean){
+        if(meetingBean == null){
+            return;
+        }
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name",meetingBean.getName());
+        contentValues.put("state",meetingBean.getState());
+        contentValues.put("cycle_time",meetingBean.getCycleTime());
+        contentValues.put("haspwd",meetingBean.getHaspwd());
+        contentValues.put("password",meetingBean.getPswStr());
+        contentValues.put("time_zone",meetingBean.getTimeZone());
+        contentValues.put("start_time",meetingBean.getStartTime());
+        contentValues.put("duration",meetingBean.getDuration());
+        contentValues.put("reminder_time",meetingBean.getReminderTime());
+        contentValues.put("has_reminded",0);
+        contentValues.put("auto_call",meetingBean.getAutoCall());
+        contentValues.put("auto_answer",meetingBean.getAutoAnswer());
+        contentValues.put("intercept",meetingBean.getIntercept());
+        contentValues.put("auto_record",meetingBean.getAutoRecord());
+        contentValues.put("enter_mute",meetingBean.getEnterMute());
+        contentValues.put("build_time",0);
+        contentValues.put("is_read",meetingBean.getIsRead());
+//        Uri uri = Schedule.Member.MEMBER_CONTENT_URI;
+        Uri uri = Uri.parse("content://com.base.conference.provider/meetings");
+        Uri resultUri =  contentResolver.insert(uri,contentValues);
+        Log.e("--main--","insert return:"+resultUri.getEncodedPath());
+    }
+
+    /**
+     * 添加预约会议中　成员表的数据
+     */
+    public void insertMembersTable(List<MemberBean> list){
+//        Uri uri1 =  Schedule.Meeting.MEETING_CONTENT_URI;
+        Uri uri = Uri.parse("content://com.base.conference.provider/members");
+        for(int i=0;i<list.size();i++){
+            MemberBean memberBean = list.get(i);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("phone",memberBean.getPhone());
+            contentValues.put("origin_number",memberBean.getOriginNum());
+            contentValues.put("account",memberBean.getAccount());
+            contentValues.put("origin",memberBean.getOrigin());
+            contentValues.put("call_mode",memberBean.getCallMode());
+            contentValues.put("meeting_id",memberBean.getMeetingId());
+            contentResolver.insert(uri,contentValues);
+        }
+    }
 }
 
