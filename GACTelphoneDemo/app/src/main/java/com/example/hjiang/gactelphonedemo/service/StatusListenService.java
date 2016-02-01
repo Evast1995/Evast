@@ -1,5 +1,6 @@
 package com.example.hjiang.gactelphonedemo.service;
 
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +8,8 @@ import android.os.IBinder;
 
 import com.base.module.call.Conf;
 import com.base.module.call.StatusChangeListener;
-import com.base.module.call.line.LineObj;
 import com.base.module.call.line.LineObjManager;
+import com.base.module.call.line.LineObj;
 import com.example.hjiang.gactelphonedemo.IStatusChangeListener;
 import com.example.hjiang.gactelphonedemo.MyApplication;
 import com.example.hjiang.gactelphonedemo.activity.CallingActivity;
@@ -31,7 +32,6 @@ public class StatusListenService extends Service implements IStatusChangeListene
     @Override
     public void onCreate() {
         super.onCreate();
-
     }
 
     @Override

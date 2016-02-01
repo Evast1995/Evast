@@ -108,7 +108,8 @@ public class OtherUtils {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        String timeStr=""+year+"年"+month+"月"+day+"日"+hour+"时"+minute+"分";
+        String timeStr=""+year+"年"+month+1+"月"+day+"日"+hour+"时"+minute+"分";
+        Log.e("--main--","timeStr:"+timeStr);
         long timeCurrent = getTime(timeStr);
 
         return timeCurrent;

@@ -27,12 +27,15 @@
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:text="@string/most_member" android:background="@color/stroken_color"
         android:paddingLeft="@dimen/contact_title_padding"/>
+
+
+
     <LinearLayout
-        android:id="@+id/extend_layout" android:layout_width="match_parent"
+        android:id="@+id/extend_contact_layout" android:layout_width="match_parent"
         android:layout_height="@dimen/change_contact_height" android:orientation="horizontal"
         android:clickable="true" android:background="@drawable/layout_bg">
         <ImageView
-            android:id="@+id/open_extend" android:layout_width="@dimen/contact_icon_dimen"
+            android:id="@+id/open_contact_extend" android:layout_width="@dimen/contact_icon_dimen"
             android:layout_height="@dimen/contact_icon_dimen" android:src="@mipmap/right"
             android:layout_gravity="center_vertical" android:layout_margin="@dimen/contact_title_padding" />
         <TextView
@@ -40,12 +43,36 @@
             android:text="@string/constact_people" android:layout_gravity="center_vertical"
             android:layout_weight="5"/>
         <TextView
-            android:id="@+id/group_people" android:layout_width="0dp"
+            android:id="@+id/group_contact_people" android:layout_width="0dp"
             android:text="@string/group_people" android:layout_gravity="center_vertical"
             android:layout_height="wrap_content" android:layout_weight="2" />
     </LinearLayout>
     <ListView
         android:id="@+id/change_listview" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:visibility="gone"/>
+        android:layout_height="wrap_content" android:visibility="gone"/>
 
+
+    <LinearLayout
+        android:id="@+id/extend_history_layout" android:layout_width="match_parent"
+        android:layout_height="@dimen/change_contact_height" android:orientation="horizontal"
+        android:clickable="true" android:background="@drawable/layout_bg">
+        <ImageView
+            android:id="@+id/open_history_extend" android:layout_width="@dimen/contact_icon_dimen"
+            android:layout_height="@dimen/contact_icon_dimen" android:src="@mipmap/right"
+            android:layout_gravity="center_vertical" android:layout_margin="@dimen/contact_title_padding" />
+        <TextView
+            android:layout_width="0dp" android:layout_height="wrap_content"
+            android:text="@string/history_people" android:layout_gravity="center_vertical"
+            android:layout_weight="5"/>
+        <TextView
+            android:id="@+id/group_history_people" android:layout_width="0dp"
+            android:text="@string/group_people" android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content" android:layout_weight="2" />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/history_list" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:visibility="gone"/>
 </LinearLayout>
+
+
+

@@ -3,7 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="actionBar_height">30dp</dimen>
+    <dimen name="actionBar_height">45dp</dimen>
+
     <dimen name="dialkey_height">56dp</dimen>
 
     <dimen name="dials_top_spacing">1dp</dimen>
@@ -33,6 +34,8 @@
     <dimen name="changecontact_image_marginleft">30dp</dimen>
     <dimen name="changecontact_image_margintop">4dp</dimen>
     <dimen name="changecontact_checkbox_marginright">20dp</dimen>
+    <dimen name="changehistory_text_marginleft">10dp</dimen>
+    <dimen name="changehistory_image_dimen">20dp</dimen>
 
     <dimen name="deledit_delicon_marginright">5dp</dimen>
     <dimen name="deledit_scroll_marginright">40dp</dimen>
@@ -49,4 +52,16 @@
     <dimen name="contact_title_padding">8dp</dimen>
     <dimen name="contact_icon_dimen">20dp</dimen>
     <dimen name="contact_text_marginleft">10dp</dimen>
+
+    <dimen name="add_backicon_dimen">16dp</dimen>
+    <dimen name="add_backicon_marginleft">10dp</dimen>
+
+    <dimen name="peopletotal_size">10sp</dimen>
+
+    <dimen name="addmeeting_paddingleft">15dp</dimen>
+    <dimen name="loopmeeting_marginleft">60dp</dimen>
+    <dimen name="loopmeeting_check_marginleft">3dp</dimen>
+    <dimen name="loopmeeting_text_marginleft">10dp</dimen>
+    <dimen name="loopmeeting_checkbox_dimen">32dp</dimen>
+    <dimen name="data_edit_height">35dp</dimen>
 </resources>

@@ -70,28 +70,7 @@ public class SearchAdapter extends BaseAdapter{
         if(searchBean.getBitmap()!=null){
             viewHolder.imageHead.setImageBitmap(searchBean.getBitmap());
         }else if(searchBean!=null ){
-            Bitmap bitmap;
-            switch (searchBean.getType()){
-                case SearchBean.NO_HEAD:{
-                    bitmap = ImageUtils.getBitmapByResId(R.mipmap.conf_incoming_default_pic, context);
-                    break;
-                }
-                case SearchBean.INCOMING_TYPE:{
-                    bitmap = ImageUtils.getBitmapByResId(R.mipmap.line_ringing_normal,context);
-                    break;
-                }
-                case SearchBean.OUTGOING_TYPE:{
-                    bitmap = ImageUtils.getBitmapByResId(R.mipmap.miss_call,context);
-                    break;
-                }
-                case SearchBean.MISSED_TYPE:{
-                    bitmap = ImageUtils.getBitmapByResId(R.mipmap.line_calling_normal,context);
-                    break;
-                }
-                default:{
-                    bitmap = ImageUtils.getBitmapByResId(R.mipmap.conf_incoming_default_pic, context);
-                }
-            }
+            Bitmap bitmap = setHeadShow(searchBean.getType());
             viewHolder.imageHead.setImageBitmap(bitmap);
         }
         String phoneNumStr = searchBean.getPhoneNum();
@@ -111,5 +90,36 @@ public class SearchAdapter extends BaseAdapter{
         private TextView nameTv;
         private TextView phoneTv;
         private ImageView imageHead;
+    }
+
+    /**
+     * 设置头像显示
+     * @param type
+     * @return
+     */
+    private Bitmap setHeadShow(int type){
+        Bitmap bitmap ;
+        switch (type){
+            case SearchBean.NO_HEAD:{
+                bitmap = ImageUtils.getBitmapByResId(R.mipmap.conf_incoming_default_pic, context);
+                break;
+            }
+            case SearchBean.INCOMING_TYPE:{
+                bitmap = ImageUtils.getBitmapByResId(R.mipmap.line_ringing_normal,context);
+                break;
+            }
+            case SearchBean.OUTGOING_TYPE:{
+                bitmap = ImageUtils.getBitmapByResId(R.mipmap.miss_call,context);
+                break;
+            }
+            case SearchBean.MISSED_TYPE:{
+                bitmap = ImageUtils.getBitmapByResId(R.mipmap.line_calling_normal,context);
+                break;
+            }
+            default:{
+                bitmap = ImageUtils.getBitmapByResId(R.mipmap.conf_incoming_default_pic, context);
+            }
+        }
+        return bitmap;
     }
 }

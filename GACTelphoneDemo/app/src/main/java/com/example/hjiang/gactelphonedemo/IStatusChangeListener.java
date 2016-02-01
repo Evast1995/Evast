@@ -2,7 +2,7 @@ package com.example.hjiang.gactelphonedemo;
 
 
 import com.base.module.call.Conf;
-import com.base.module.phone.service.LineObj;
+import com.base.module.call.line.LineObj;
 
 import java.util.List;
 

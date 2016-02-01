@@ -10,10 +10,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
-import android.provider.Schedule;
-import android.util.Log;
 
 import com.example.hjiang.gactelphonedemo.bean.ChangeContactsBean;
+import com.example.hjiang.gactelphonedemo.bean.ChangeHistoryBean;
 import com.example.hjiang.gactelphonedemo.bean.MeetingBean;
 import com.example.hjiang.gactelphonedemo.bean.MemberBean;
 
@@ -222,9 +221,22 @@ public class ContactsUtil {
         Uri uri = CallLog.Calls.CONTENT_URI;
         String whereStr = "origin_number like '"+phoneNum+"%'";
         Cursor cursor = contentResolver.query(uri, new String[] {"origin_number","type"}, whereStr, null, null);
-        // select * from calls where origin_number like '%';
         return cursor;
     }
+
+    /**
+     * 获取所有通话记录
+     * 去掉会议记录
+     * @return
+     */
+    public Cursor getAllCallHistory(){
+        ChangeHistoryBean changeHistoryBean = new ChangeHistoryBean();
+        Uri historyUri = CallLog.Calls.CONTENT_URI;
+        String whereStr = "is_conference = '0'";
+        Cursor cursor = contentResolver.query(historyUri,new String[]{"origin_number","type","account"},whereStr,null,null);
+        return cursor;
+    }
+
 
     /**
      * 获取所有联系人
@@ -286,7 +298,6 @@ public class ContactsUtil {
     /** ---------------------------------------会议工具--------------------------------------------------------**/
 
 
-    private Schedule schedule = new Schedule();
 
 
     /**
@@ -303,9 +314,9 @@ public class ContactsUtil {
      * 添加预约会议中　会议表中的数据
      * @param meetingBean
      */
-    public void insertMeetingsTable(MeetingBean meetingBean){
+    public String insertMeetingsTable(MeetingBean meetingBean){
         if(meetingBean == null){
-            return;
+            return null;
         }
         ContentValues contentValues = new ContentValues();
         contentValues.put("name",meetingBean.getName());
@@ -325,17 +336,17 @@ public class ContactsUtil {
         contentValues.put("enter_mute",meetingBean.getEnterMute());
         contentValues.put("build_time",0);
         contentValues.put("is_read",meetingBean.getIsRead());
-//        Uri uri = Schedule.Member.MEMBER_CONTENT_URI;
         Uri uri = Uri.parse("content://com.base.conference.provider/meetings");
-        Uri resultUri =  contentResolver.insert(uri,contentValues);
-        Log.e("--main--","insert return:"+resultUri.getEncodedPath());
+        Uri resultUri =  contentResolver.insert(uri, contentValues);
+        String returnStr = resultUri.getEncodedPath();
+        String meetingIdStr = returnStr.replace("/meetings/", "");
+        return meetingIdStr;
     }
 
     /**
      * 添加预约会议中　成员表的数据
      */
     public void insertMembersTable(List<MemberBean> list){
-//        Uri uri1 =  Schedule.Meeting.MEETING_CONTENT_URI;
         Uri uri = Uri.parse("content://com.base.conference.provider/members");
         for(int i=0;i<list.size();i++){
             MemberBean memberBean = list.get(i);
@@ -348,6 +359,15 @@ public class ContactsUtil {
             contentValues.put("meeting_id",memberBean.getMeetingId());
             contentResolver.insert(uri,contentValues);
         }
+    }
+
+
+    public void test(){
+//        Uri uriMeeting = Schedule.Meeting.MEETING_CONTENT_URI;
+//        Cursor cursorMeeting = contentResolver.query(uriMeeting,null,null,null,null);
+//        Uri uriMember = Schedule.Member.MEMBER_CONTENT_URI;
+//        Cursor cursorMember = contentResolver.query(uriMember,null,null,null,null);
+//        Log.e("--main--","cursorMeeting count:"+cursorMeeting.getCount()+"cursorMember count:"+cursorMember.getCount());
     }
 }
 

@@ -58,4 +58,24 @@ public class SearchBean {
                 ", type=" + type +
                 '}';
     }
+
+    /**
+     * 让history的数据不重复
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        SearchBean searchBean = (SearchBean) o;
+        if(searchBean.getBitmap() == this.bitmap){
+            if(searchBean.getPhoneNum().equals(this.phoneNum)){
+                if(searchBean.getDisplayName() == this.displayName){
+                    if(searchBean.getType() == this.type){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

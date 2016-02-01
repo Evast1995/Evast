@@ -53,7 +53,7 @@ public class SearchFragment extends Fragment{
         headLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!TextUtils.isEmpty(searchPhoneTv.getText())){
+                if (!TextUtils.isEmpty(searchPhoneTv.getText())) {
                     MainActivity mainActivity = (MainActivity) context;
                     mainActivity.setDelEdit(searchPhoneTv.getText().toString());
                 }
@@ -106,6 +106,17 @@ public class SearchFragment extends Fragment{
      */
     private List<SearchBean> setSearchData(String phoneNum){
         List<SearchBean> list = new ArrayList<SearchBean>();
+        addContacts(list,phoneNum);
+        addHistory(list,phoneNum);
+        return list;
+    }
+
+    /**
+     * 添加差找到的联系人
+     * @param list
+     * @param phoneNum
+     */
+    private void addContacts(List<SearchBean> list,String phoneNum){
         /** 通过模糊匹配查找出来的联系人*/
         Cursor cursor = ContactsUtil.getInstance(context).getCursorByVaguePhoneNum(phoneNum);
         while (cursor.getCount()!=0&&cursor.moveToNext()) {
@@ -120,19 +131,37 @@ public class SearchFragment extends Fragment{
             list.add(searchBean);
         }
         cursor.close();
+    }
 
+    /**
+     * 添加查找的历史记录
+     */
+    private void addHistory(List<SearchBean> list,String phoneNum){
         /** 通过模糊匹配查找出来的历史记录*/
         Cursor historyCursor =  ContactsUtil.getInstance(context).getCallHistroyByVaguePhoneNum(phoneNum);
         while(historyCursor.getCount()!=0&&historyCursor.moveToNext()){
             SearchBean searchBean = new SearchBean();
             String phoneNumStr = historyCursor.getString(historyCursor.getColumnIndex("origin_number"));
             searchBean.setPhoneNum(phoneNumStr);
-            searchBean.setType(historyCursor.getInt(historyCursor.getColumnIndex("type")));
-            list.add(searchBean);
+            Integer type = historyCursor.getInt(historyCursor.getColumnIndex("type"));
+            searchBean.setType(type);
+            /** 去掉重复元素*/
+            if(!isContain(list,searchBean)){
+                list.add(searchBean);
+            }
         }
         historyCursor.close();
-        return list;
     }
 
 
+    private Boolean isContain(List<SearchBean> list,SearchBean object){
+        Boolean isEquals = false;
+        for(int i=0;i<list.size();i++){
+            if (object.equals(list.get(i))){
+                isEquals = true;
+                break;
+            }
+        }
+        return isEquals;
+    }
 }

@@ -58,4 +58,6 @@ public class TahHost extends FrameLayout{
         textView.setText(tabStr);
         view.addView(textView);
     }
+
+
 }

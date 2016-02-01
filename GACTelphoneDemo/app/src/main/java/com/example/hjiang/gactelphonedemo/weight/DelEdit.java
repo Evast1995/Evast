@@ -32,6 +32,7 @@ public class DelEdit extends FrameLayout{
     private EditText editTv;
     private ImageView delIcon;
     private LinearLayout textViewLayout;
+    private RelativeLayout delEditLayout;
     private HorizontalScrollView scrollView;
 
     public DelEdit(Context context) {
@@ -59,7 +60,15 @@ public class DelEdit extends FrameLayout{
         delIcon = (ImageView) view.findViewById(R.id.del_icon);
         textViewLayout = (LinearLayout) view.findViewById(R.id.textview_layout);
         scrollView = (HorizontalScrollView) view.findViewById(R.id.scroll_view);
+        delEditLayout = (RelativeLayout) view.findViewById(R.id.deledit_body);
         delCharInEdit();
+    }
+
+    /**
+     * 对外提供一个设置背景的方法
+     */
+    public void setEditBackgound(int resId){
+        delEditLayout.setBackgroundResource(resId);
     }
 
     /**

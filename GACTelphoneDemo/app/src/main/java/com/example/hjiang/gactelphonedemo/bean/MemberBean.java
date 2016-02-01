@@ -16,7 +16,7 @@ public class MemberBean {
     /** 拨号方式　在CallManger中有相应的参数*/
     private int callMode;
     /** 会议id*/
-    private int meetingId;
+    private String meetingId;
 
     public String getPhone() {
         return phone;
@@ -58,11 +58,11 @@ public class MemberBean {
         this.callMode = callMode;
     }
 
-    public int getMeetingId() {
+    public String getMeetingId() {
         return meetingId;
     }
 
-    public void setMeetingId(int meetingId) {
+    public void setMeetingId(String meetingId) {
         this.meetingId = meetingId;
     }
 
