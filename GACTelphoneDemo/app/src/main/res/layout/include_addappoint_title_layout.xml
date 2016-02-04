@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent" android:background="@color/dark_blue"
+    android:layout_height="@dimen/actionBar_height" xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:id="@+id/back_icon" android:layout_width="@dimen/add_backicon_dimen"
+        android:layout_height="@dimen/add_backicon_dimen" android:src="@mipmap/backbutton_cl"
+        android:layout_centerVertical="true" android:layout_marginLeft="@dimen/add_backicon_marginleft"/>
+    <ImageView
+        android:id="@+id/sure_icon" android:layout_width="@dimen/actionBar_height"
+        android:layout_height="match_parent" android:background="@drawable/sure_bg"
+        android:layout_alignParentRight="true" android:scaleType="centerCrop"/>
+
+</RelativeLayout>

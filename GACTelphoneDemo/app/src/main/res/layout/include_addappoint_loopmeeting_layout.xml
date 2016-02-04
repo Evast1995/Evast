@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content" android:layout_width="match_parent"
+    android:orientation="vertical" android:background="#ededed">
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="@dimen/actionBar_height" android:gravity="center_vertical"
+        android:paddingLeft="@dimen/addmeeting_paddingleft">
+        <CheckBox
+            android:id="@+id/addmeeting_loop_checkbox" android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/checkbox_bg"/>
+        <TextView
+            android:layout_width="wrap_content" android:text="@string/loopmeeting"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent" android:background="#cfcece"
+        android:layout_height="@dimen/stroken_height" />
+    <LinearLayout
+        android:layout_width="match_parent" android:orientation="horizontal"
+        android:layout_height="@dimen/actionBar_height" android:gravity="center_vertical"
+        android:paddingLeft="@dimen/addmeeting_paddingleft" android:id="@+id/data_layout">
+        <TextView
+            android:layout_width="0dp" android:text="@string/meetingdata"
+            android:layout_height="wrap_content" android:layout_weight="1"/>
+        <Button
+            android:id="@+id/meetingdata_btn" android:layout_width="0dp"
+            android:layout_height="@dimen/data_edit_height" android:layout_weight="1"
+            android:background="@mipmap/spinner_default"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent" android:orientation="horizontal"
+        android:layout_height="@dimen/actionBar_height" android:gravity="center_vertical"
+        android:paddingLeft="@dimen/addmeeting_paddingleft" android:visibility="gone"
+        android:id="@+id/loop_layout">
+        <TextView
+            android:layout_width="wrap_content" android:text="@string/monday"
+            android:layout_height="wrap_content"    android:textColor="#aeacac"/>
+        <CheckBox
+            android:id="@+id/addmeeting_monday_checkbox" android:layout_width="@dimen/loopmeeting_checkbox_dimen"
+            android:layout_height="@dimen/loopmeeting_checkbox_dimen" 
+            android:background="@drawable/checkbox_bg" android:layout_marginLeft="@dimen/loopmeeting_check_marginleft"/>
+
+        <TextView
+            android:layout_width="wrap_content" android:text="@string/tuesday"
+            android:layout_height="wrap_content"  android:layout_marginLeft="@dimen/loopmeeting_text_marginleft"
+            android:textColor="#aeacac"/>
+        <CheckBox
+            android:id="@+id/addmeeting_tuesday_checkbox" android:layout_width="@dimen/loopmeeting_checkbox_dimen"
+            android:layout_height="@dimen/loopmeeting_checkbox_dimen" 
+            android:background="@drawable/checkbox_bg" android:layout_marginLeft="@dimen/loopmeeting_check_marginleft"/>
+
+        <TextView
+            android:layout_width="wrap_content" android:text="@string/wednesday"
+            android:layout_height="wrap_content"  android:layout_marginLeft="@dimen/loopmeeting_text_marginleft"
+            android:textColor="#aeacac"/>
+        <CheckBox
+            android:id="@+id/addmeeting_wednesday_checkbox" android:layout_width="@dimen/loopmeeting_checkbox_dimen"
+            android:layout_height="@dimen/loopmeeting_checkbox_dimen" 
+            android:background="@drawable/checkbox_bg" android:layout_marginLeft="@dimen/loopmeeting_check_marginleft"/>
+
+        <TextView
+            android:layout_width="wrap_content" android:text="@string/thursday"
+            android:layout_height="wrap_content"  android:layout_marginLeft="@dimen/loopmeeting_text_marginleft"
+            android:textColor="#aeacac"/>
+        <CheckBox
+            android:id="@+id/addmeeting_thursday_checkbox" android:layout_width="@dimen/loopmeeting_checkbox_dimen"
+            android:layout_height="@dimen/loopmeeting_checkbox_dimen" 
+            android:background="@drawable/checkbox_bg" android:layout_marginLeft="@dimen/loopmeeting_check_marginleft"/>
+
+        <TextView
+            android:layout_width="wrap_content" android:text="@string/friday"
+            android:layout_height="wrap_content"  android:layout_marginLeft="@dimen/loopmeeting_text_marginleft"
+            android:textColor="#aeacac"/>
+        <CheckBox
+            android:id="@+id/addmeeting_friday_checkbox" android:layout_width="@dimen/loopmeeting_checkbox_dimen"
+            android:layout_height="@dimen/loopmeeting_checkbox_dimen" 
+            android:background="@drawable/checkbox_bg" android:layout_marginLeft="@dimen/loopmeeting_check_marginleft"/>
+
+        <TextView
+            android:layout_width="wrap_content" android:text="@string/saturday"
+            android:layout_height="wrap_content"  android:layout_marginLeft="@dimen/loopmeeting_text_marginleft"
+            android:textColor="#aeacac"/>
+        <CheckBox
+            android:id="@+id/addmeeting_saturday_checkbox" android:layout_width="@dimen/loopmeeting_checkbox_dimen"
+            android:layout_height="@dimen/loopmeeting_checkbox_dimen" 
+            android:background="@drawable/checkbox_bg" android:layout_marginLeft="@dimen/loopmeeting_check_marginleft"/>
+
+        <TextView
+            android:layout_width="wrap_content" android:text="@string/sunday"
+            android:layout_height="wrap_content"  android:layout_marginLeft="@dimen/loopmeeting_text_marginleft"
+            android:textColor="#aeacac"/>
+        <CheckBox
+            android:id="@+id/addmeeting_sunday_checkbox" android:layout_width="@dimen/loopmeeting_checkbox_dimen"
+            android:layout_height="@dimen/loopmeeting_checkbox_dimen" 
+            android:background="@drawable/checkbox_bg" android:layout_marginLeft="@dimen/loopmeeting_check_marginleft"/>
+    </LinearLayout>
+</LinearLayout>

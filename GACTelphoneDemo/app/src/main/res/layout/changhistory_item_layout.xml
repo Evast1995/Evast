@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:orientation="horizontal"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent" android:orientation="horizontal"
+        android:layout_height="match_parent" android:id="@+id/item_layout"
+        android:background="@drawable/layout_bg">
+        <ImageView
+            android:id="@+id/head_image" android:layout_width="@dimen/change_contact_height"
+            android:layout_marginBottom="@dimen/changecontact_image_margintop"
+            android:layout_marginTop="@dimen/changecontact_image_margintop"
+            android:layout_marginLeft="@dimen/changecontact_image_marginleft"
+            android:layout_height="@dimen/change_contact_height"
+            android:layout_gravity="center_vertical"/>
+        <RelativeLayout
+            android:layout_width="0dp" android:orientation="vertical"
+            android:layout_height="wrap_content" android:layout_weight="6"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/contact_text_marginleft" >
+            <TextView
+                android:id="@+id/changehistory_name_text" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="name" />
+            <ImageView
+                android:id="@+id/changehistory_image" android:layout_width="@dimen/changehistory_image_dimen"
+                android:layout_height="@dimen/changehistory_image_dimen" android:src="@mipmap/miss_call"
+                android:layout_below="@id/changehistory_name_text"/>
+            <TextView
+                android:id="@+id/change_history_phone_text" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_toRightOf="@id/changehistory_image"
+                android:layout_below="@id/changehistory_name_text"  android:text="phone"
+                android:layout_marginLeft="@dimen/changehistory_text_marginleft" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/change_history_account" android:layout_width="0dp"
+            android:layout_height="wrap_content" android:layout_weight="6"
+            android:text="账号一" android:layout_gravity="center_vertical"/>
+        <CheckBox
+            android:id="@+id/check_box" android:layout_width="0dp"
+            android:layout_height="wrap_content" android:layout_gravity="center_vertical"
+            android:layout_weight="1" android:layout_marginRight="@dimen/changecontact_checkbox_marginright"
+            android:background="@drawable/checkbox_bg" android:button="@null"/>
+    </LinearLayout>
+</LinearLayout>
