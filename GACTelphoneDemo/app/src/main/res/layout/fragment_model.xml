@@ -15,15 +15,26 @@
             android:layout_margin="@dimen/model_btn_margin" android:text="@string/call"
             android:background="@drawable/drop_down_box_bg"/>
     </LinearLayout>
-    <!--<ListView-->
-        <!--android:id="@+id/account_list" android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp" android:layout_weight="4"/>-->
     <ScrollView
-        android:layout_width="match_parent" android:layout_weight="4"
+        android:layout_width="match_parent" android:layout_weight="3"
         android:layout_height="0dp">
         <LinearLayout
             android:id="@+id/account_layout" android:layout_width="match_parent"
             android:layout_height="match_parent" android:orientation="vertical"/>
     </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent" android:layout_weight="1"
+        android:layout_height="0dp" android:background="@drawable/modelbtn_bg"
+        android:clickable="true" android:layout_margin="@dimen/model_appointpadding"
+        android:id="@+id/schedule_layout">
+        <ImageView
+            android:id="@+id/appoint_icon" android:layout_width="wrap_content"
+            android:layout_height="match_parent" android:src="@mipmap/ic_schedule"
+            android:layout_margin="@dimen/model_appointpadding"/>
+        <TextView
+            android:layout_width="wrap_content" android:text="@string/appointment"
+            android:layout_height="wrap_content" android:layout_toRightOf="@id/appoint_icon"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
 
 </LinearLayout>

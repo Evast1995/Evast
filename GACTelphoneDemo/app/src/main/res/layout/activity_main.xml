@@ -3,10 +3,9 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activity.MainActivity"
-    android:id="@+id/body">
+    tools:context=".activity.MainActivity" android:id="@+id/body">
     <LinearLayout
-        android:orientation="horizontal" android:background="#9eb7cc"
+        android:orientation="horizontal" android:background="@color/blue"
         android:layout_width="match_parent" android:layout_height="match_parent">
         <RelativeLayout
             android:id="@+id/lefl_slip_layout"

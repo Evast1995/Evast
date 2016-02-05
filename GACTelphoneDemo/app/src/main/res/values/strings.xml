@@ -54,7 +54,7 @@
     <string name="meetingdata">会议日期</string>
     <string name="timezone">时区</string>
     <string name="starttime">开始时间</string>
-    <string name="timelong">时长</string>
+    <string name="timelong">时长(分)</string>
     <string name="meetingremind">会议提醒</string>
     <string name="automeeting">自动会议</string>
     <string name="autoaccept">自动接听成员来电</string>
@@ -69,5 +69,16 @@
     <string name="friday">周五</string>
     <string name="saturday">周六</string>
     <string name="sunday">周日</string>
-    <string name="people_total">$1%d/64</string>
+    <string name="people_total">%d/64</string>
+    <string name="charmore">字符超过长度</string>
+    <string name="numberhint">0至10位数字</string>
+    <string name="complate">完成</string>
+    <string name="default_minutes">30</string>
+
+    <string name="advence">提前%d分钟</string>
+    <string name="nothing">无</string>
+    <string name="appointment">预约会议</string>
+    <string name="no_meetingname">会议名称不能为空</string>
+    <string name="no_meetingmember">会议成员不能为空</string>
+    <string name="longtime_error">时长格式不对</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.hjiang.gactelphonedemo.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import com.base.module.call.CallManager;
 import com.base.module.call.account.CallAccount;
 import com.example.hjiang.gactelphonedemo.MyApplication;
 import com.example.hjiang.gactelphonedemo.R;
+import com.example.hjiang.gactelphonedemo.activity.AppointMentActivity;
 import com.example.hjiang.gactelphonedemo.adapter.PopupAdatper;
 import com.example.hjiang.gactelphonedemo.util.AccountUtils;
 import com.example.hjiang.gactelphonedemo.weight.ImageOrTextMixed;
@@ -48,6 +50,7 @@ public class ModelFragment extends Fragment implements View.OnClickListener{
         modelBtn = (Button) view.findViewById(R.id.model_btn);
         accountLayout = (LinearLayout) view.findViewById(R.id.account_layout);
         modelBtn.setOnClickListener(this);
+        view.findViewById(R.id.schedule_layout).setOnClickListener(this);
         setLineData();
         return view;
     }
@@ -148,6 +151,12 @@ public class ModelFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.model_btn:{
                 showPopupWindow();
+                break;
+            }
+            /** 打开预约会议界面*/
+            case R.id.schedule_layout:{
+                Intent intent = new Intent(context, AppointMentActivity.class);
+                startActivity(intent);
                 break;
             }
         }

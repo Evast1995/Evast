@@ -120,8 +120,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-
-
     /**
      * 点击切换账号弹出dialog
      */
@@ -151,7 +149,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     private void showContacts(){
         adapter.setChangeList(contactList);
     }
-
 
     /**
      * 显示历史记录

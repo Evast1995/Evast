@@ -11,6 +11,9 @@ import android.net.Uri;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
 
+import com.base.module.call.CallManager;
+import com.base.module.call.settings.CallSettingsManager;
+import com.example.hjiang.gactelphonedemo.MyApplication;
 import com.example.hjiang.gactelphonedemo.bean.ChangeContactsBean;
 import com.example.hjiang.gactelphonedemo.bean.ChangeHistoryBean;
 import com.example.hjiang.gactelphonedemo.bean.MeetingBean;
@@ -194,7 +197,6 @@ public class ContactsUtil {
         return bitmap;
     }
 
-
     /**
      * 通过displayName获取电话号码
      * @param displayName
@@ -236,7 +238,6 @@ public class ContactsUtil {
         Cursor cursor = contentResolver.query(historyUri,new String[]{"origin_number","type","account"},whereStr,null,null);
         return cursor;
     }
-
 
     /**
      * 获取所有联系人
@@ -298,21 +299,19 @@ public class ContactsUtil {
     /** ---------------------------------------会议工具--------------------------------------------------------**/
 
 
-
-
     /**
      * 添加预约会议
      * @param meetingBean
-     * @param list
      */
-    public void insertMeetings(MeetingBean meetingBean,List<MemberBean> list){
-        insertMeetingsTable(meetingBean);
-        insertMembersTable(list);
+    public void insertMeetings(MeetingBean meetingBean,List<String> phoneNumStr){
+        String meetingId = insertMeetingsTable(meetingBean);
+        addMeetingMemberBean(phoneNumStr, Integer.parseInt(meetingId));
     }
 
     /**
      * 添加预约会议中　会议表中的数据
      * @param meetingBean
+     * @return 会议ID
      */
     public String insertMeetingsTable(MeetingBean meetingBean){
         if(meetingBean == null){
@@ -335,7 +334,6 @@ public class ContactsUtil {
         contentValues.put("auto_record",meetingBean.getAutoRecord());
         contentValues.put("enter_mute",meetingBean.getEnterMute());
         contentValues.put("build_time",0);
-        contentValues.put("is_read",meetingBean.getIsRead());
         Uri uri = Uri.parse("content://com.base.conference.provider/meetings");
         Uri resultUri =  contentResolver.insert(uri, contentValues);
         String returnStr = resultUri.getEncodedPath();
@@ -344,30 +342,36 @@ public class ContactsUtil {
     }
 
     /**
-     * 添加预约会议中　成员表的数据
+     * 通过电话号码集合添加会议成员到bean
+     * @param list
      */
-    public void insertMembersTable(List<MemberBean> list){
-        Uri uri = Uri.parse("content://com.base.conference.provider/members");
+    private void addMeetingMemberBean(List<String> list,int meetingId){
+        List<MemberBean> memList = new ArrayList<MemberBean>();
         for(int i=0;i<list.size();i++){
-            MemberBean memberBean = list.get(i);
+            MemberBean memberBean = new MemberBean();
+            String phoneNum = list.get(i);
+            memberBean.setAccount(MyApplication.localId);
+            memberBean.setOrigin(CallSettingsManager.SOURCE_FLAG_DIAL);
+            memberBean.setOriginNum(phoneNum);
+            memberBean.setPhone(phoneNum);
+            memberBean.setCallMode(CallManager.CALLMODE_SIP);
+            memberBean.setMeetingId(meetingId);
+            memList.add(memberBean);
+        }
+        Uri uri = Uri.parse("content://com.base.conference.provider/members");
+        for(int i=0;i<memList.size();i++){
+            MemberBean memberBean = memList.get(i);
             ContentValues contentValues = new ContentValues();
-            contentValues.put("phone",memberBean.getPhone());
-            contentValues.put("origin_number",memberBean.getOriginNum());
-            contentValues.put("account",memberBean.getAccount());
-            contentValues.put("origin",memberBean.getOrigin());
-            contentValues.put("call_mode",memberBean.getCallMode());
-            contentValues.put("meeting_id",memberBean.getMeetingId());
-            contentResolver.insert(uri,contentValues);
+            contentValues.put("phone", memberBean.getPhone());
+            contentValues.put("origin_number", memberBean.getOriginNum());
+            contentValues.put("account", memberBean.getAccount());
+            contentValues.put("origin", memberBean.getOrigin());
+            contentValues.put("call_mode", memberBean.getCallMode());
+            contentValues.put("meeting_id", memberBean.getMeetingId());
+            contentResolver.insert(uri, contentValues);
         }
     }
 
 
-    public void test(){
-//        Uri uriMeeting = Schedule.Meeting.MEETING_CONTENT_URI;
-//        Cursor cursorMeeting = contentResolver.query(uriMeeting,null,null,null,null);
-//        Uri uriMember = Schedule.Member.MEMBER_CONTENT_URI;
-//        Cursor cursorMember = contentResolver.query(uriMember,null,null,null,null);
-//        Log.e("--main--","cursorMeeting count:"+cursorMeeting.getCount()+"cursorMember count:"+cursorMember.getCount());
-    }
 }
 

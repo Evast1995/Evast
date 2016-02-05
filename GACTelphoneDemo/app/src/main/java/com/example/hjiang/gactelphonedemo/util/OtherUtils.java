@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.WindowManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by hjiang on 16-1-7.
@@ -95,7 +97,6 @@ public class OtherUtils {
         return minute*60*1000;
     }
 
-
     /**
      * 获取当天　某个时间的　时间搓　
      * @param hour　当天几点
@@ -107,20 +108,112 @@ public class OtherUtils {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        String timeStr=""+year+"年"+month+1+"月"+day+"日"+hour+"时"+minute+"分";
-        Log.e("--main--","timeStr:"+timeStr);
-        long timeCurrent = getTime(timeStr);
-
+        long timeCurrent = getTime(year, month, day, hour, minute);
         return timeCurrent;
     }
 
     /**
-     * 通过字符串获取时间戳
-     * @param timeStr
+     * 获取当前日期
      * @return
      */
-    public static long getTime(String timeStr){
+    public static String getCurrentDate(){
+        final Calendar c = Calendar.getInstance();
+        c.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+        String mYear = String.valueOf(c.get(Calendar.YEAR)); // 获取当前年份
+        String mMonth = String.valueOf(c.get(Calendar.MONTH) + 1);// 获取当前月份
+        String mDay = String.valueOf(c.get(Calendar.DAY_OF_MONTH));// 获取当前月份的日期号码
+        String mWay = String.valueOf(c.get(Calendar.DAY_OF_WEEK));
+        if("1".equals(mWay)){
+            mWay ="天";
+        }else if("2".equals(mWay)){
+            mWay ="一";
+        }else if("3".equals(mWay)){
+            mWay ="二";
+        }else if("4".equals(mWay)){
+            mWay ="三";
+        }else if("5".equals(mWay)){
+            mWay ="四";
+        }else if("6".equals(mWay)){
+            mWay ="五";
+        }else if("7".equals(mWay)){
+            mWay ="六";
+        }
+        return mYear + "年" +String.format("%02d",Integer.valueOf(mMonth)) + "月" +
+                String.format("%02d",Integer.valueOf(mDay))+"日"+"星期"+mWay;
+    }
+
+    /**
+     * 获取当前时间　时：分
+     * @return
+     */
+    public static String getCurrentTime(){
+        Date date = new Date();
+        return String.format("%02d",date.getHours())+":"+String.format("%02d", date.getMinutes());
+    }
+
+    public static int getCurrentWeek(){
+        Calendar calendar = Calendar.getInstance();
+        return calendar.getFirstDayOfWeek();
+    }
+
+    /**
+     * 拼接出日期
+     * 通过年月日计算周几 这里以20世纪为准
+     * @param year
+     * @param month
+     * @param day
+     * @return
+     */
+    public static String spellDate(int year,int month,int day){
+        String myWeek = null;
+        int c = 20;//表示多少世纪
+        int m = month;
+        if(m == 1){
+            m = 13;
+        }else if(m ==2){
+            m = 14;
+        }
+        int week = (year+(year/4)+(c/4)-2*c+(26*(m+1)/10)+day-1)%7;
+        switch(week) {
+            case 0:
+                myWeek="日";
+                break;
+            case 1:
+                myWeek="一";
+                break;
+            case 2:
+                myWeek="二";
+                break;
+            case 3:
+                myWeek="三";
+                break;
+            case 4:
+                myWeek="四";
+                break;
+            case 5:
+                myWeek="五";
+                break;
+            case 6:
+                myWeek="六";
+                break;
+            default:
+                break;
+        }
+
+        return year + "年" +String.format("%02d",(month+1)) + "月" + String.format("%02d",day)+"日"+"星期"+myWeek;
+    }
+
+    /**
+     * 获取时间戳
+     * @param year
+     * @param month
+     * @param day
+     * @param hour
+     * @param minute
+     * @return
+     */
+    public static long getTime(int year,int month,int day,int hour,int minute){
+        String timeStr=""+year+"年"+month+1+"月"+day+"日"+hour+"时"+minute+"分";
         long timeCurrent = 0L;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
         Date date = null;
@@ -131,6 +224,55 @@ public class OtherUtils {
             e.printStackTrace();
         }
         return timeCurrent;
+    }
+
+
+    /**
+     * 获取本周几中某个时间段的时间
+     * @param week
+     * @param hour
+     * @param minute
+     * @param isNextWeek
+     * @return
+     */
+    public static long getCurrentWeekTime(int week,int hour,int minute,Boolean isNextWeek){
+        Calendar calendar = Calendar.getInstance();
+        if(isNextWeek) {
+            calendar.add(Calendar.WEEK_OF_MONTH, calendar.getFirstDayOfWeek());
+        }
+        calendar.set(Calendar.DAY_OF_WEEK,week);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        return calendar.getTimeInMillis();
+    }
+
+    /**
+     * 获取当前时区
+     * @return
+     */
+    public static String getCurrentTimeZone(){
+        TimeZone timeZone = TimeZone.getDefault();
+        return timeZone.getDisplayName();
+    }
+
+    /** 判断一个字符串是否是标准的long型*/
+    public static boolean isValidLong(String str){
+        try{
+            long v = Long.parseLong(str);
+            return true;
+        }catch(NumberFormatException e){
+            return false;
+        }
+    }
+
+    /**
+     * 获取屏幕的宽度
+     * @param context
+     * @return
+     */
+    public static int getWidth(Context context){
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        return wm.getDefaultDisplay().getWidth();
     }
 
 }

@@ -41,6 +41,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private ModelFragment modelFragment = null;
     private SearchFragment searchFragment = null;
     private static final int CONTACTS_REQUEST_CODE=102;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +77,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(delEdit.getWindowToken(), 0); //强制隐藏键盘
     }
+
     /**
      * 初始化视图
      */
@@ -197,6 +199,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         setResult(RESULT_CODE,intent);
         finish();
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -242,8 +245,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         startActivity(intent);
     }
 
-
-
     /**
      * 编辑框变动时事件
      */
@@ -287,7 +288,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
     private Handler mHandler = new Handler();
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

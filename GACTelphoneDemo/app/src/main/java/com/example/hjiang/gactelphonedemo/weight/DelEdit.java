@@ -103,7 +103,6 @@ public class DelEdit extends FrameLayout{
                 setScrollViewLayoutParams();
             }
         });
-
     }
     Handler handler = new Handler();
 
@@ -178,7 +177,6 @@ public class DelEdit extends FrameLayout{
      * @return
      */
     public String getEditText(){
-
         return editTv.getText().toString();
     }
 

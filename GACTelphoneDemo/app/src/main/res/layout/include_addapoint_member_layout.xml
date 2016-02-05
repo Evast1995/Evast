@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:gravity="center_vertical" android:paddingLeft="@dimen/addmeeting_paddingleft"
-    android:background="#ededed">
+    android:gravity="center_vertical" android:paddingLeft="@dimen/addmeeting_paddingleft">
     <RelativeLayout
         android:layout_width="0dp"  android:layout_height="@dimen/actionBar_height"
          android:gravity="center_vertical" android:layout_weight="5">
@@ -13,11 +12,11 @@
             android:id="@+id/mee" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:text="@string/most_member"
             android:layout_below="@id/meeting_member" android:textSize="@dimen/peopletotal_size"
-            android:textColor="#b4b0b0"/>
+            android:textColor="@color/gray"/>
     </RelativeLayout>
     <com.example.hjiang.gactelphonedemo.weight.DelEdit
         android:id="@+id/addmeeting_member" android:layout_width="0dp"
-        android:layout_height="wrap_content" android:layout_weight="5"/>
+        android:layout_height="@dimen/data_edit_height" android:layout_weight="5"/>
     <ImageView
         android:id="@+id/addmeeting_contacts" android:layout_width="0dp"
         android:layout_height="wrap_content" android:src="@mipmap/btn_add_normal"

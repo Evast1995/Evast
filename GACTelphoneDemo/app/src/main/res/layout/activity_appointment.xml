@@ -3,45 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/include_appointment_title_layout"/>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <ListView
-        android:id="@+id/time_zone" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/test" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <LinearLayout
-        android:layout_width="wrap_content" android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/back_icon" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <TimePicker
-             android:id="@+id/tpPicker"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content" />
 
 </LinearLayout>

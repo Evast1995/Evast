@@ -9,8 +9,14 @@ import android.support.v7.app.ActionBarActivity;
  * Created by hjiang on 16-1-8.
  */
 public class BaseActivity extends ActionBarActivity{
+
     public Fragment mFragmentContent;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

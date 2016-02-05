@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <Switch
+        android:id="@+id/addmeeting_automeeting" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:gravity="left|center_vertical"
+        android:text="@string/automeeting" android:padding="@dimen/addmeeting_paddingleft"/>
+    <View
+        android:layout_width="match_parent" android:background="@color/stroken_color"
+        android:layout_height="@dimen/stroken_height" />
+
+
+    <Switch
+        android:id="@+id/addmeeting_autoaccept" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:gravity="left|center_vertical"
+        android:text="@string/autoaccept" android:padding="@dimen/addmeeting_paddingleft"/>
+    <View
+        android:layout_width="match_parent" android:background="@color/stroken_color"
+        android:layout_height="@dimen/stroken_height" />
+
+
+    <Switch
+        android:id="@+id/addmeeting_nosound" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:gravity="left|center_vertical"
+        android:text="@string/nosound" android:padding="@dimen/addmeeting_paddingleft"
+        android:textColor="@color/gray"/>
+    <View
+        android:layout_width="match_parent" android:background="@color/stroken_color"
+        android:layout_height="@dimen/stroken_height" />
+
+
+    <Switch
+        android:id="@+id/addmeeting_addpsw" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:gravity="left|center_vertical"
+        android:padding="@dimen/addmeeting_paddingleft" android:text="@string/addlock"/>
+    <View
+        android:layout_width="match_parent" android:background="@color/stroken_color"
+        android:layout_height="@dimen/stroken_height" />
+
+    <LinearLayout
+        android:layout_width="match_parent" android:orientation="horizontal"
+        android:layout_height="@dimen/actionBar_height" android:paddingLeft="@dimen/addmeeting_paddingleft"
+        android:paddingRight="@dimen/addmeeting_paddingleft" android:gravity="center_vertical">
+        <CheckBox
+            android:id="@+id/addmeeting_password_checkbox" android:layout_width="0dp"
+            android:layout_height="wrap_content"   android:text="@string/password"
+            android:layout_weight="1" android:textColor="@color/gray"/>
+        <EditText
+            android:id="@+id/addmeeing_password" android:layout_width="0dp"
+            android:layout_height="@dimen/data_edit_height" android:layout_weight="1"
+            android:background="@drawable/add_edit_bg" android:hint="@string/numberhint"
+            android:visibility="gone"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent" android:background="@color/stroken_color"
+        android:layout_height="@dimen/stroken_height" />
+
+    <Switch
+        android:id="@+id/addmeeting_autorecord" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:gravity="left|center_vertical"
+        android:padding="@dimen/addmeeting_paddingleft" android:text="@string/autorecord"/>
+
+
+</LinearLayout>

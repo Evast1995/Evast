@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
-    <LinearLayout
-        android:layout_width="match_parent" android:orientation="vertical"
-        android:layout_height="match_parent" >
-        <!--标题部分-->
-        <include layout="@layout/include_addappoint_title_layout" android:id="@+id/appoint_title_include"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent" android:layout_width="match_parent"
+    android:orientation="vertical">
+    <!--标题部分-->
+    <include layout="@layout/include_addappoint_title_layout" android:id="@+id/appoint_title_include"/>
+    <ScrollView
+        android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent" android:orientation="vertical"
+            android:layout_height="match_parent" android:background="@color/background_color">
 
-        <!-- 添加会议名称部分-->
-        <include layout="@layout/include_addappoint_meeting_layout" android:id="@+id/appoint_meeting_include"/>
-        <View
-            android:layout_width="match_parent" android:background="#cfcece"
-            android:layout_height="@dimen/stroken_height" />
+            <!-- 添加会议名称部分-->
+            <include layout="@layout/include_addappoint_meeting_layout" android:id="@+id/appoint_meeting_include"/>
+            <View
+                android:layout_width="match_parent" android:background="@color/stroken_color"
+                android:layout_height="@dimen/stroken_height" />
 
-        <!--添加成员部分 -->
-        <include layout="@layout/include_addapoint_member_layout" android:id="@+id/appoint_member_include"/>
-        <View
-            android:layout_width="match_parent" android:background="#cfcece"
-            android:layout_height="@dimen/stroken_height" />
+            <!--添加成员部分 -->
+            <include layout="@layout/include_addapoint_member_layout" android:id="@+id/appoint_member_include"/>
+            <View
+                android:layout_width="match_parent" android:background="@color/stroken_color"
+                android:layout_height="@dimen/stroken_height" />
 
-        <!--循环会议部分-->
-        <include layout="@layout/include_addappoint_loopmeeting_layout" android:id="@+id/appoint_loop_include"/>
-    </LinearLayout>
-</ScrollView>
+            <!--循环会议部分-->
+            <include layout="@layout/include_addappoint_loopmeeting_layout" android:id="@+id/appoint_loop_include"/>
+            <View
+                android:layout_width="match_parent" android:background="@color/stroken_color"
+                android:layout_height="@dimen/stroken_height" />
+
+            <!-- 选择时间部分-->
+            <include layout="@layout/include_addapoint_data_layout" android:id="@+id/appoint_data_include"/>
+            <View
+                android:layout_width="match_parent" android:background="@color/stroken_color"
+                android:layout_height="@dimen/stroken_height" />
+
+            <!--自动会议，接听，加锁,自动录音部分　-->
+            <include layout="@layout/include_addapoint_auto_layout" android:id="@+id/appoint_auto_include"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
