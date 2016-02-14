@@ -74,6 +74,8 @@
     <string name="numberhint">0至10位数字</string>
     <string name="complate">完成</string>
     <string name="default_minutes">30</string>
+    <string name="meeting_member">会议成员</string>
+    <string name="meeting_time">会议时间</string>
 
     <string name="advence">提前%d分钟</string>
     <string name="nothing">无</string>
@@ -81,4 +83,14 @@
     <string name="no_meetingname">会议名称不能为空</string>
     <string name="no_meetingmember">会议成员不能为空</string>
     <string name="longtime_error">时长格式不对</string>
+
+    <string name="time_format">%1$d年%2$d月%3$d日%4$s-%5$s</string>
+    <string name="start">开始</string>
+    <string name="meeting_long">时长</string>
+    <string name="minute">%d 分</string>
+    <string name="miss_meeting">错过会议</string>
+    <string name="close_meeting">会议已关闭</string>
+
+    <string name="open">打开</string>
+    <string name="close">关闭</string>
 </resources>

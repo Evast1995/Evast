@@ -1,10 +1,12 @@
 package com.example.hjiang.gactelphonedemo.bean;
 
+import java.io.Serializable;
+
 /**
  * 会议成员的bean
  * Created by hjiang on 16-1-28.
  */
-public class MemberBean {
+public class MemberBean implements Serializable{
     /** 电话号码*/
     private String phone;
     /** 添加拨号规则的号码　　暂时不考虑不添加*/

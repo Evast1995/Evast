@@ -53,7 +53,7 @@
     <dimen name="contact_icon_dimen">20dp</dimen>
     <dimen name="contact_text_marginleft">10dp</dimen>
 
-    <dimen name="add_backicon_dimen">16dp</dimen>
+    <dimen name="add_backicon_dimen">45dp</dimen>
     <dimen name="add_backicon_marginleft">10dp</dimen>
 
     <dimen name="peopletotal_size">10sp</dimen>
@@ -68,4 +68,18 @@
     <dimen name="edit_paddingleft">3dp</dimen>
     <dimen name="model_appointpadding">5dp</dimen>
     <dimen name="slip_block_height">4dp</dimen>
+    <dimen name="tablayout_width">200dp</dimen>
+    <dimen name="openmeeting_padding">10dp</dimen>
+    <dimen name="loop_icon_marginleft">8dp</dimen>
+    <dimen name="openmeeting_btnsize">13sp</dimen>
+    <dimen name="start_btn_width">60dp</dimen>
+    <dimen name="start_btn_height">32dp</dimen>
+    <dimen name="openmeeting_marginleft">20dp</dimen>
+    <dimen name="openmeeting_contactpadding">3dp</dimen>
+    <dimen name="scheduledetail_title_marginleft">15dp</dimen>
+    <dimen name="scheduledetail_layout_padding">10dp</dimen>
+    <dimen name="schedule_detail_layout_height">45dp</dimen>
+    <dimen name="historymeeting_padding">12dp</dimen>
+    <dimen name="historymeeting_text_margintop">5dp</dimen>
+    <dimen name="history_textsize">12sp</dimen>
 </resources>

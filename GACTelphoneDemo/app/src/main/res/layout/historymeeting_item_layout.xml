@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:paddingLeft="@dimen/historymeeting_padding"
+    android:layout_height="match_parent" android:paddingRight="@dimen/historymeeting_padding">
+    <TextView
+        android:id="@+id/meeting_name_tv" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:textColor="@color/black"
+        android:layout_marginTop="@dimen/historymeeting_text_margintop"/>
+    <TextView
+        android:id="@+id/meeting_time_tv" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:textColor="@color/dark_gray"
+        android:layout_below="@id/meeting_name_tv" android:layout_marginTop="@dimen/historymeeting_text_margintop"
+        android:layout_marginBottom="@dimen/historymeeting_text_margintop"
+        android:textSize="@dimen/history_textsize"/>
+    <TextView
+        android:id="@+id/meeting_state_tv" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_alignBottom="@id/meeting_time_tv"
+        android:layout_alignParentRight="true" />
+</RelativeLayout>

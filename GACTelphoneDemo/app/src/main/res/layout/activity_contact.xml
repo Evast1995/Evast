@@ -6,20 +6,20 @@
         android:layout_width="match_parent" android:orientation="horizontal"
         android:layout_height="@dimen/change_contact_height" android:background="@color/blue">
         <ImageView
-            android:id="@+id/contact_back_icon" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:src="@mipmap/backbutton_cl"
-            android:layout_centerVertical="true" android:layout_margin="@dimen/contact_title_padding" />
+            android:id="@+id/contact_back_icon" android:layout_width="@dimen/add_backicon_dimen"
+            android:layout_height="@dimen/add_backicon_dimen" android:background="@drawable/back_bg"
+            android:layout_centerVertical="true"  />
         <ImageView
             android:id="@+id/contact_sure_icon" android:layout_width="@dimen/change_contact_height"
-            android:layout_height="@dimen/change_contact_height" android:src="@mipmap/check_box_off_pressed"
-            android:layout_alignParentRight="true" android:background="@color/dark_blue"/>
+            android:layout_height="@dimen/change_contact_height"  android:background="@drawable/sure_bg"
+            android:layout_alignParentRight="true"/>
         <Button
             android:id="@+id/contactchange_account_btn" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:background="@mipmap/spinner_default"
             android:layout_toLeftOf="@id/contact_sure_icon" android:layout_margin="@dimen/contact_title_padding"/>
         <EditText
             android:id="@+id/contactchange_edit" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:background="@drawable/select_account_bg"
+            android:layout_height="wrap_content" android:background="@color/white"
             android:layout_toRightOf="@id/contact_back_icon" android:layout_toLeftOf="@id/contactchange_account_btn"
             android:layout_alignBottom="@id/contactchange_account_btn" android:layout_alignTop="@id/contactchange_account_btn"/>
     </RelativeLayout>

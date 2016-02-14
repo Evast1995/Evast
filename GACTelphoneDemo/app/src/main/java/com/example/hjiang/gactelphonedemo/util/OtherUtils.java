@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.example.hjiang.gactelphonedemo.R;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -226,7 +228,6 @@ public class OtherUtils {
         return timeCurrent;
     }
 
-
     /**
      * 获取本周几中某个时间段的时间
      * @param week
@@ -273,6 +274,52 @@ public class OtherUtils {
     public static int getWidth(Context context){
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         return wm.getDefaultDisplay().getWidth();
+    }
+
+    /**
+     * 获取一段时间的字符串　格式 xxxx年xx月xx日xx时：xx分-xx时xx分
+     * @param timeStamp　开始时间的时间戳
+     * @param context
+     * @param timeLong 时间长度　单位ms
+     * @return
+     */
+    public static String getTimeStrByTimeStamp(long timeStamp,Context context,long timeLong){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timeStamp);
+        int year = calendar.get(Calendar.YEAR);
+        int month =calendar.get(Calendar.MONTH)+1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.getTime().getHours();
+        int minutes = calendar.getTime().getMinutes();
+
+        calendar.setTimeInMillis(timeStamp+timeLong);
+        int endHour = calendar.getTime().getHours();
+        int endMinutes = calendar.getTime().getMinutes();
+        String startTimeStr = ""+hour+":"+minutes;
+        String endTimeStr = ""+endHour+":"+endMinutes;
+        String timeStr = context.getResources().getString(R.string.time_format);
+        timeStr = String.format(timeStr,year,month,day,startTimeStr,endTimeStr);
+        return timeStr;
+    }
+
+    /**
+     * 通过时间戳获取时间字符串
+     * @param stamp
+     * @return
+     */
+    public static String getTimeStrByStamp(long stamp){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = sdf.format(stamp);
+        return time;
+    }
+
+    /**
+     * 通过毫秒获取分钟
+     * @param million
+     * @return
+     */
+    public static int getMinuteByMillion(long million){
+        return (int) (million/60/1000);
     }
 
 }

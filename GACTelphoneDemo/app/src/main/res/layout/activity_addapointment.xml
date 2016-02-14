@@ -12,27 +12,19 @@
 
             <!-- 添加会议名称部分-->
             <include layout="@layout/include_addappoint_meeting_layout" android:id="@+id/appoint_meeting_include"/>
-            <View
-                android:layout_width="match_parent" android:background="@color/stroken_color"
-                android:layout_height="@dimen/stroken_height" />
+            <include layout="@layout/include_stroken_layout"/>
 
             <!--添加成员部分 -->
             <include layout="@layout/include_addapoint_member_layout" android:id="@+id/appoint_member_include"/>
-            <View
-                android:layout_width="match_parent" android:background="@color/stroken_color"
-                android:layout_height="@dimen/stroken_height" />
+            <include layout="@layout/include_stroken_layout"/>
 
             <!--循环会议部分-->
             <include layout="@layout/include_addappoint_loopmeeting_layout" android:id="@+id/appoint_loop_include"/>
-            <View
-                android:layout_width="match_parent" android:background="@color/stroken_color"
-                android:layout_height="@dimen/stroken_height" />
+            <include layout="@layout/include_stroken_layout"/>
 
             <!-- 选择时间部分-->
             <include layout="@layout/include_addapoint_data_layout" android:id="@+id/appoint_data_include"/>
-            <View
-                android:layout_width="match_parent" android:background="@color/stroken_color"
-                android:layout_height="@dimen/stroken_height" />
+            <include layout="@layout/include_stroken_layout"/>
 
             <!--自动会议，接听，加锁,自动录音部分　-->
             <include layout="@layout/include_addapoint_auto_layout" android:id="@+id/appoint_auto_include"/>

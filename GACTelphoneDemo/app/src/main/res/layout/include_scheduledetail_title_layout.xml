@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent" android:background="@color/dark_blue"
+    android:layout_height="@dimen/actionBar_height" xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:id="@+id/back_icon" android:layout_width="@dimen/add_backicon_dimen"
+        android:layout_height="@dimen/add_backicon_dimen" android:background="@drawable/back_bg"
+        android:layout_centerVertical="true" android:layout_marginLeft="@dimen/add_backicon_marginleft"/>
+    <TextView
+        android:id="@+id/schedule_title_tv" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginLeft="@dimen/scheduledetail_title_marginleft"
+        android:layout_toRightOf="@id/back_icon" android:textColor="@color/white"
+        android:textStyle="bold" android:layout_centerVertical="true"/>
+    <ImageView
+        android:id="@+id/action_del_icon" android:layout_width="@dimen/actionBar_height"
+        android:layout_height="match_parent" android:background="@drawable/action_del_bg"
+        android:layout_alignParentRight="true" android:scaleType="centerCrop"
+        android:layout_marginLeft="@dimen/stroken_height"/>
+    <ImageView
+        android:id="@+id/action_edit_icon" android:layout_width="@dimen/actionBar_height"
+        android:layout_height="match_parent" android:background="@drawable/action_edit_bg"
+        android:scaleType="centerCrop" android:layout_toLeftOf="@id/action_del_icon"
+        android:layout_marginLeft="@dimen/stroken_height"/>
+    <ImageView
+        android:id="@+id/action_call_icon" android:layout_width="@dimen/actionBar_height"
+        android:layout_height="match_parent" android:background="@drawable/action_call_bg"
+        android:scaleType="centerCrop" android:layout_toLeftOf="@id/action_edit_icon"/>
+
+</RelativeLayout>

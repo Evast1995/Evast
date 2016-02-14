@@ -93,9 +93,9 @@ public class SearchFragment extends Fragment{
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what == 0x12){
-                adapter.setListChange(list);
-            }
+        if(msg.what == 0x12){
+            adapter.setListChange(list);
+        }
         }
     };
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:padding="@dimen/openmeeting_padding" android:descendantFocusability="blocksDescendants">
+    <TextView
+        android:id="@+id/openmeeting_name" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:textColor="@color/black"
+        android:textStyle="bold"/>
+    <ImageView
+        android:id="@+id/loop_icon" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:src="@mipmap/ic_cycle"
+        android:layout_toRightOf="@id/openmeeting_name" android:layout_marginLeft="@dimen/loop_icon_marginleft"
+        android:scaleType="centerCrop" android:layout_alignBottom="@id/openmeeting_name"/>
+    <TextView
+        android:id="@+id/member_layout" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"  android:layout_marginTop="@dimen/openmeeting_contactpadding"
+        android:layout_below="@id/openmeeting_name" />
+    <TextView
+        android:id="@+id/meeting_time" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_below="@id/member_layout"
+        android:textColor="@color/dark_brown" android:layout_marginTop="@dimen/openmeeting_contactpadding"/>
+    <TextView
+        android:id="@+id/meeting_state" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:textColor="@color/dark_brown"
+        android:layout_alignParentRight="true" android:gravity="center"/>
+    <Button
+        android:id="@+id/meeting_startbtn" android:layout_width="@dimen/start_btn_width"
+        android:layout_height="@dimen/start_btn_height" android:textSize="@dimen/openmeeting_btnsize"
+        android:layout_alignParentRight="true" android:text="@string/start"
+        android:background="@drawable/but_bg" android:textColor="@color/white"
+        android:layout_alignBottom="@id/meeting_time" />
+</RelativeLayout>

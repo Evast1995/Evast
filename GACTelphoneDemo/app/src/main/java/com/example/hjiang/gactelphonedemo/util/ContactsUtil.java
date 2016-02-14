@@ -372,6 +372,63 @@ public class ContactsUtil {
         }
     }
 
+    /**
+     * 通过会议ID获取该会议的成员
+     * @param meetingId
+     */
+    public List<MemberBean> getMemeberByMeetingId(int meetingId){
+        List<MemberBean> list = new ArrayList<MemberBean>();
+        Uri uri = Uri.parse("content://com.base.conference.provider/members");
+        String whereStr = "meeting_id = ?";
+        Cursor cursor = contentResolver.query(uri,null,whereStr,new String[]{String.valueOf(meetingId)},null);
+        while(cursor.getCount()>0&&cursor.moveToNext()){
+            MemberBean memberBean = new MemberBean();
+            memberBean.setMeetingId(meetingId);
+            memberBean.setPhone(cursor.getString(cursor.getColumnIndex("phone")));
+            memberBean.setOriginNum(cursor.getString(cursor.getColumnIndex("origin_number")));
+            memberBean.setAccount(cursor.getInt(cursor.getColumnIndex("account")));
+            memberBean.setOrigin(cursor.getInt(cursor.getColumnIndex("origin")));
+            memberBean.setCallMode(cursor.getInt(cursor.getColumnIndex("call_mode")));
+            list.add(memberBean);
+        }
+        cursor.close();
+        return list;
+    }
+
+    /**
+     * 通过会议状态获取会议信息
+     * @param state 0:no start 1:closed 2:missed
+     * @return
+     */
+    public List<MeetingBean> getMeetingsByState(int state){
+        List<MeetingBean> list = new ArrayList<MeetingBean>();
+        Uri uri = Uri.parse("content://com.base.conference.provider/meetings");
+        String whereStr = "state = ?";
+        Cursor cursor = contentResolver.query(uri, null, whereStr, new String[]{String.valueOf(state)}, null);
+        while(cursor.getCount()>0&&cursor.moveToNext()){
+            MeetingBean meetingBean = new MeetingBean();
+            meetingBean.setMeetingId(cursor.getInt(cursor.getColumnIndex("_id")));
+            meetingBean.setName(cursor.getString(cursor.getColumnIndex("name")));
+            meetingBean.setCycleTime(cursor.getInt(cursor.getColumnIndex("cycle_time")));
+            meetingBean.setHaspwd(cursor.getInt(cursor.getColumnIndex("haspwd")));
+            meetingBean.setPswStr(cursor.getString(cursor.getColumnIndex("password")));
+            meetingBean.setTimeZone(cursor.getString(cursor.getColumnIndex("time_zone")));
+            meetingBean.setStartTime(cursor.getLong(cursor.getColumnIndex("start_time")));
+            meetingBean.setDuration(cursor.getInt(cursor.getColumnIndex("duration")));
+            meetingBean.setReminderTime(cursor.getLong(cursor.getColumnIndex("reminder_time")));
+            meetingBean.setAutoCall(cursor.getInt(cursor.getColumnIndex("auto_call")));
+            meetingBean.setAutoAnswer(cursor.getInt(cursor.getColumnIndex("auto_answer")));
+            meetingBean.setIntercept(cursor.getInt(cursor.getColumnIndex("intercept")));
+            meetingBean.setAutoRecord(cursor.getInt(cursor.getColumnIndex("auto_record")));
+            meetingBean.setEnterMute(cursor.getInt(cursor.getColumnIndex("enter_mute")));
+            meetingBean.setIsRead(cursor.getInt(cursor.getColumnIndex("is_read")));
+            meetingBean.setState(cursor.getInt(cursor.getColumnIndex("state")));
+            meetingBean.setMemberList(getMemeberByMeetingId(meetingBean.getMeetingId()));
+            list.add(meetingBean);
+        }
+        cursor.close();
+        return list;
+    }
 
 }
 

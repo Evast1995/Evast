@@ -28,6 +28,7 @@
         <activity android:name=".activity.MeetingActivity" android:launchMode="singleTask"/>
         <activity android:name=".activity.ContactsActivity"/>
         <activity android:name=".activity.AppointMentActivity"/>
+        <activity android:name=".activity.ScheduleDetailActivity"/>
         <activity android:name=".activity.AddMeetingActivity"/>
         <service android:name=".service.StatusListenService"/>
         <service android:name=".service.ConfListenService"/>

@@ -1,9 +1,13 @@
 package com.example.hjiang.gactelphonedemo.bean;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by hjiang on 16-1-28.
  */
-public class MeetingBean {
+public class MeetingBean implements Serializable{
     /** 会议名称*/
     private String name;
     /** 会议状态: 0:no start 1:closed 2:missed 此处默认为没有开始*/
@@ -12,7 +16,7 @@ public class MeetingBean {
     private  * 当是几天都循环时　即将它们相加 如星期一和星期二 即:1+2=3*/
     private int cycleTime;
     /** 是否有密码　0:没有密码　1:有密码*/
-    private int haspwd ;
+    private int haspwd;
     /** 如果有密码则添加　无密码则为空*/
     private String pswStr;
     /** 时区* "Asia/Shanghai"*/
@@ -20,7 +24,7 @@ public class MeetingBean {
     /** 开始时间　时间戳 */
     private long startTime;
     /** 会议预计时长　毫秒*/
-    private long duration ;
+    private long duration;
     /** 会议提醒时长　没有则-1 毫秒**/
     private long reminderTime;
     /** 是否自动会议*/
@@ -35,6 +39,17 @@ public class MeetingBean {
     private int enterMute;
     /** 是否错过会议了　１:进行了会议　0:错过了会议*/
     private int isRead;
+    /** 会议id*/
+    private int meetingId;
+    /** 会议成员*/
+    private List<MemberBean> memberList = new ArrayList<MemberBean>();
+
+    public int getMeetingId() {
+        return meetingId;
+    }
+    public void setMeetingId(int meetingId) {
+        this.meetingId = meetingId;
+    }
 
     public String getTimeZone() {
         return timeZone;
@@ -156,6 +171,14 @@ public class MeetingBean {
         this.isRead = isRead;
     }
 
+    public List<MemberBean> getMemberList() {
+        return memberList;
+    }
+
+    public void setMemberList(List<MemberBean> memberList) {
+        this.memberList = memberList;
+    }
+
     @Override
     public String toString() {
         return "MeetingBean{" +
@@ -174,6 +197,8 @@ public class MeetingBean {
                 ", autoRecord=" + autoRecord +
                 ", enterMute=" + enterMute +
                 ", isRead=" + isRead +
+                ", meetingId=" + meetingId +
+                ", memberList=" + memberList +
                 '}';
     }
 }

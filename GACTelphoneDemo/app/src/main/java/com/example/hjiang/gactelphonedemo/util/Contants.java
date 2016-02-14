@@ -21,4 +21,6 @@ public interface Contants {
     String IS_CONFLINE = "conf_line";
     /** 电话的key值*/
     String PHONE_NUM = "phonenum";
+    /** 会议信息的key值*/
+    String MEETING_BEAN = "meeting_bean";
 }

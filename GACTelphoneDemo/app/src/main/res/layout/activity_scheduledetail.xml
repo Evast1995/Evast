@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"  android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/include_scheduledetail_title_layout" android:id="@+id/schduledetial_title_layout"/>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"  android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent" android:orientation="vertical"
+            android:layout_height="match_parent">
+            <include layout="@layout/include_meetingmember_layout" android:id="@+id/meetingmember_layout"/>
+            <include layout="@layout/include_stroken_layout"/>
+            <RelativeLayout
+                android:layout_width="match_parent" android:orientation="horizontal"
+                android:layout_height="@dimen/schedule_detail_layout_height" android:id="@+id/cycle_layout">
+                <TextView
+                    android:layout_width="wrap_content" android:text="@string/loopmeeting"
+                    android:layout_height="wrap_content" android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/scheduledetail_layout_padding" android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/cycle_meeting" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                    android:paddingRight="@dimen/scheduledetail_layout_padding"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <include layout="@layout/include_stroken_layout"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent" android:orientation="horizontal"
+                android:layout_height="@dimen/schedule_detail_layout_height">
+                <TextView
+                    android:layout_width="wrap_content" android:text="@string/meeting_time"
+                    android:layout_height="wrap_content" android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/scheduledetail_layout_padding"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/meeting_time" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                    android:paddingRight="@dimen/scheduledetail_layout_padding" android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <include layout="@layout/include_stroken_layout"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent" android:orientation="horizontal"
+                android:layout_height="@dimen/schedule_detail_layout_height">
+                <TextView
+                    android:layout_width="wrap_content" android:text="@string/meeting_long"
+                    android:layout_height="wrap_content" android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/scheduledetail_layout_padding"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/schedule_long" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                    android:paddingRight="@dimen/scheduledetail_layout_padding" android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <include layout="@layout/include_stroken_layout"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent" android:orientation="horizontal"
+                android:layout_height="@dimen/schedule_detail_layout_height">
+                <TextView
+                    android:layout_width="wrap_content" android:text="@string/meetingremind"
+                    android:layout_height="wrap_content" android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/scheduledetail_layout_padding"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/meeting_remind" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                    android:paddingRight="@dimen/scheduledetail_layout_padding"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <include layout="@layout/include_stroken_layout"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent" android:orientation="horizontal"
+                android:layout_height="@dimen/schedule_detail_layout_height">
+                <TextView
+                    android:layout_width="wrap_content" android:text="@string/automeeting"
+                    android:layout_height="wrap_content" android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/scheduledetail_layout_padding"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/auto_meeting" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                    android:paddingRight="@dimen/scheduledetail_layout_padding"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <include layout="@layout/include_stroken_layout"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent" android:orientation="horizontal"
+                android:layout_height="@dimen/schedule_detail_layout_height">
+                <TextView
+                    android:layout_width="wrap_content" android:text="@string/autoaccept"
+                    android:layout_height="wrap_content" android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/scheduledetail_layout_padding"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/auto_accept" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                    android:paddingRight="@dimen/scheduledetail_layout_padding"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <include layout="@layout/include_stroken_layout"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent" android:orientation="horizontal"
+                android:layout_height="@dimen/schedule_detail_layout_height">
+                <TextView
+                    android:layout_width="wrap_content" android:text="@string/nosound"
+                    android:layout_height="wrap_content" android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/scheduledetail_layout_padding"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/nosound" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                    android:paddingRight="@dimen/scheduledetail_layout_padding"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <include layout="@layout/include_stroken_layout"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent" android:orientation="horizontal"
+                android:layout_height="@dimen/schedule_detail_layout_height" >
+                <TextView
+                    android:layout_width="wrap_content" android:text="@string/addlock"
+                    android:layout_height="wrap_content" android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/scheduledetail_layout_padding"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/intercept" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                    android:paddingRight="@dimen/scheduledetail_layout_padding" android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <include layout="@layout/include_stroken_layout"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent" android:orientation="horizontal"
+                android:layout_height="@dimen/schedule_detail_layout_height" android:id="@+id/psw_layout">
+                <TextView
+                    android:layout_width="wrap_content" android:text="@string/password"
+                    android:layout_height="wrap_content" android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/scheduledetail_layout_padding"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/password" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                    android:paddingRight="@dimen/scheduledetail_layout_padding"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <include layout="@layout/include_stroken_layout"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent" android:orientation="horizontal"
+                android:layout_height="@dimen/schedule_detail_layout_height">
+                <TextView
+                    android:layout_width="wrap_content" android:text="@string/autorecord"
+                    android:layout_height="wrap_content" android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/scheduledetail_layout_padding"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/autorecord" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_alignParentRight="true"
+                    android:paddingRight="@dimen/scheduledetail_layout_padding"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+            <include layout="@layout/include_stroken_layout"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -43,6 +43,8 @@
     <color name="gray">#959699</color>
     <color name="halftransparent">#20000000</color>
 
+    <color name="dark_gray">#565658</color>
+
     <color name="stroken_color">#d6d6d7</color>
     <color name="background_color">#edeef2</color>
 

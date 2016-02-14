@@ -26,4 +26,9 @@
         <item>停止暂停</item>
         <item>结束会议</item>
     </string-array>
+
+    <string-array name="schedule">
+        <item>待开会议</item>
+        <item>历史会议</item>
+    </string-array>
 </resources>
