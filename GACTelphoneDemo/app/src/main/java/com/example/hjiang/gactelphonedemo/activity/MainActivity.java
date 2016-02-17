@@ -118,7 +118,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         if(searchFragment == null) {
             searchFragment = new SearchFragment();
         }
-
         switchFragmentContent(R.id.lefl_slip_layout, modelFragment);
     }
 

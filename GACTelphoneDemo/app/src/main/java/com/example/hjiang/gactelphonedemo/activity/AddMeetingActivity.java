@@ -31,7 +31,9 @@ import com.example.hjiang.gactelphonedemo.util.Contants;
 import com.example.hjiang.gactelphonedemo.util.OtherUtils;
 import com.example.hjiang.gactelphonedemo.weight.DelEdit;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by hjiang on 16-2-2.
@@ -52,7 +54,7 @@ public class AddMeetingActivity extends BaseActivity implements View.OnClickList
     /** 是否循环会议的checkbox*/
     private CheckBox isLoopCb;
     /** 不循环会议的时候显示预约会议的日期*/
-    private LinearLayout dataLayout;
+    private LinearLayout dateLayout;
     /** 循环会议的时候显示循环周期列表*/
     private LinearLayout loopLayout;
     /** 不循环会议时候　选择会议日期的按钮*/
@@ -99,12 +101,122 @@ public class AddMeetingActivity extends BaseActivity implements View.OnClickList
     private Boolean[] loopWeek = new Boolean[]{false,false,false,false,false,false,false};
     /** 提前多少分钟提醒 字符串组*/
     private String[] advencesArray = new String[7];
+    /** 判断当前是更新数据还是添加数据 默认false为添加数据*/
+    private Boolean isUpdateDate =false;
+    /** 更新会议的会议Id*/
+    private int meetingId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addapointment);
         init();
+        isUpdateDate();
+    }
+
+    /**
+     * 当前若是更新数据时　则需要初始化数据
+     * @param meetingBean
+     */
+    private void initData(MeetingBean meetingBean){
+        addMeetingNameEt.setText(meetingBean.getName());
+        for(int i=0;i<meetingBean.getMemberList().size();i++) {
+            addMeetingMemberEt.setAddTextView(meetingBean.getMemberList().get(i).getPhone());
+        }
+        int cycleTime = meetingBean.getCycleTime();
+        if(cycleTime == 0){
+            loopLayout.setVisibility(View.GONE);
+            dateLayout.setVisibility(View.VISIBLE);
+            meetingDataBtn.setText(OtherUtils.getDateByStamp(meetingBean.getStartTime()));
+        }else{
+            isLoopCb.setChecked(true);
+            loopLayout.setVisibility(View.VISIBLE);
+            dateLayout.setVisibility(View.GONE);
+            setLoopCb(cycleTime);
+        }
+
+        String timeZoneStr = meetingBean.getTimeZone();
+        timeZoneStr = TimeZone.getTimeZone(timeZoneStr).getDisplayName()+":"+timeZoneStr;
+        timeZoneBtn.setText(timeZoneStr);
+
+        startTimeBtn.setText(OtherUtils.getTimeByStamp(meetingBean.getStartTime()));
+        longTimeEt.setText(""+OtherUtils.getMinuteByMillion(meetingBean.getDuration()));
+        String advenceStr = getString(R.string.advence);
+        advenceStr = String.format(advenceStr,OtherUtils.getMinuteByMillion(meetingBean.getReminderTime()));
+        advenceBtn.setText(advenceStr);
+        if(meetingBean.getAutoCall() == 1){
+            autoMeetingSc.setChecked(true);
+        }
+        if(meetingBean.getAutoAnswer() == 1){
+            autoAcceptSc.setChecked(true);
+            joinNoSoundSc.setClickable(true);
+            if(meetingBean.getEnterMute() == 1){
+                joinNoSoundSc.setChecked(true);
+            }
+        }
+        if(meetingBean.getAutoRecord() == 1){
+            autoRecordSc.setChecked(true);
+        }
+        if(meetingBean.getIntercept() == 1){
+            addLockSc.setChecked(true);
+            passwordCb.setClickable(true);
+            if(!TextUtils.isEmpty(meetingBean.getPswStr())){
+                passwordCb.setChecked(true);
+                passwordEt.setText(meetingBean.getPswStr());
+            }
+        }
+    }
+
+    /**
+     *　设置循环会议周期
+     * @param cycle
+     */
+    private void setLoopCb(int cycle){
+        if(cycle > 0) {
+            if (cycle >= 64) {
+                sundayCb.setChecked(true);
+                cycle -= 64;
+            }
+            if (cycle >= 32 && cycle < 64) {
+                saturdayCb.setChecked(true);
+                cycle -= 32;
+            }
+            if (cycle >= 16 && cycle < 32) {
+                fridayCb.setChecked(true);
+                cycle -= 16;
+            }
+            if (cycle >= 8 && cycle < 16) {
+                thursdayCb.setChecked(true);
+                cycle -= 8;
+            }
+            if (cycle >= 4 && cycle < 8) {
+                wednesdayCb.setChecked(true);
+                cycle -= 4;
+            }
+            if (cycle >= 2 && cycle < 4) {
+                tuesdayCb.setChecked(true);
+                cycle -= 2;
+            }
+            if (cycle >= 1 && cycle < 2) {
+                mondayCb.setChecked(true);
+                cycle -= 1;
+            }
+        }
+    }
+
+    /**
+     * 判断是否是更新数据如果是更新数据则会有数据传输过来
+     */
+    private void isUpdateDate(){
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            MeetingBean meetingBean = (MeetingBean) bundle.getSerializable(Contants.MEETING_BEAN);
+            if(meetingBean!=null){
+                isUpdateDate = true;
+                meetingId = meetingBean.getMeetingId();
+                initData(meetingBean);
+            }
+        }
     }
 
     private void init(){
@@ -113,7 +225,7 @@ public class AddMeetingActivity extends BaseActivity implements View.OnClickList
         addMeetingMemberIv = (ImageView) findViewById(R.id.addmeeting_contacts);
         addMeetingMemberEt = (DelEdit) findViewById(R.id.addmeeting_member);
         isLoopCb = (CheckBox) findViewById(R.id.addmeeting_loop_checkbox);
-        dataLayout = (LinearLayout) findViewById(R.id.data_layout);
+        dateLayout = (LinearLayout) findViewById(R.id.data_layout);
         loopLayout = (LinearLayout) findViewById(R.id.loop_layout);
         meetingDataBtn = (Button) findViewById(R.id.meetingdata_btn);
         mondayCb = (CheckBox) findViewById(R.id.addmeeting_monday_checkbox);
@@ -164,7 +276,7 @@ public class AddMeetingActivity extends BaseActivity implements View.OnClickList
         startTimeBtn.setText(OtherUtils.getCurrentTime());
         longTimeEt.setText(R.string.default_minutes);
         advenceBtn.setText(advencesArray[1]);
-        timeZoneBtn.setText(OtherUtils.getCurrentTimeZone());
+        timeZoneBtn.setText(OtherUtils.getCurrentTimeZone()+":"+TimeZone.getDefault().getID());
     }
 
     /**
@@ -253,16 +365,16 @@ public class AddMeetingActivity extends BaseActivity implements View.OnClickList
      */
     private void setLoopShowOrHide(){
         loopLayout.setVisibility(View.GONE);
-        dataLayout.setVisibility(View.VISIBLE);
+        dateLayout.setVisibility(View.VISIBLE);
         isLoopCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked == true) {
                     loopLayout.setVisibility(View.VISIBLE);
-                    dataLayout.setVisibility(View.GONE);
+                    dateLayout.setVisibility(View.GONE);
                 } else {
                     loopLayout.setVisibility(View.GONE);
-                    dataLayout.setVisibility(View.VISIBLE);
+                    dateLayout.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -333,14 +445,28 @@ public class AddMeetingActivity extends BaseActivity implements View.OnClickList
      * 打开时区列表界面
      */
     private void openTimeZoneChange(){
-//        String timezoneIds[]= SimpleTimeZone.getAvailableIDs();
-//        Date date=new Date();
-//        SimpleDateFormat format=new SimpleDateFormat("z yyyy-MM-dd HH:mm:ss");
-//        for(int i=0;i<timezoneIds.length;i++){
-//            TimeZone tz= SimpleTimeZone.getTimeZone(timezoneIds[i]);
-//            format.setTimeZone(tz);
-//            System.out.println(tz.getDisplayName() +" ,"+ format.format(date));
-//        }
+        String[] timeZoneStrs = TimeZone.getAvailableIDs();
+        List<String> timeZonList = new ArrayList<String>();
+        for(int i=0;i<timeZoneStrs.length;i++){
+            if(!timeZoneStrs[i].contains("GMT")){
+                timeZonList.add(timeZoneStrs[i]);
+            }
+        }
+        final String[] timeZoneDisplayNameStrs= new String[timeZonList.size()];
+        for(int i=0;i< timeZonList.size();i++){
+            String timeZoneId = timeZonList.get(i);
+            timeZoneDisplayNameStrs[i] =TimeZone.getTimeZone(timeZoneId).getDisplayName()+":"+timeZoneId;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.timezone);
+        builder.setItems(timeZoneDisplayNameStrs, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                timeZoneBtn.setText(timeZoneDisplayNameStrs[which]);
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     /**
@@ -348,7 +474,7 @@ public class AddMeetingActivity extends BaseActivity implements View.OnClickList
      */
     private void openChangeDataView(){
         String timeStr = meetingDataBtn.getText().toString();
-        int year = Integer.parseInt(timeStr.substring(0, 4));
+        int year = Integer.parseInt(timeStr.substring(0,4));
         int month = Integer.parseInt(timeStr.substring(5,7));
         int day= Integer.parseInt(timeStr.substring(8,10));
 
@@ -408,7 +534,9 @@ public class AddMeetingActivity extends BaseActivity implements View.OnClickList
             startTime = getWindowTime();
         }
         /** 获取时区*/
-        String timeZone = "Asia/Shanghai";
+        String timeZone = timeZoneBtn.getText().toString();
+        timeZone = timeZone.substring(timeZone.indexOf(":")+1,timeZone.length());
+
         /** 提前了多少分钟 单位ms*/
         long remindTime = getAdvenceTime();
         /** 是否是自动会议*/
@@ -443,6 +571,7 @@ public class AddMeetingActivity extends BaseActivity implements View.OnClickList
         if(autoRecordSc.isChecked()){
             isRecord = 1;
         }
+
         MeetingBean meetingBean = new MeetingBean();
         meetingBean.setName(meetingNameStr);
         meetingBean.setTimeZone(timeZone);
@@ -458,7 +587,12 @@ public class AddMeetingActivity extends BaseActivity implements View.OnClickList
         meetingBean.setIntercept(intercept);
         meetingBean.setPswStr(pswStr);
         meetingBean.setEnterMute(isNoSound);
-        ContactsUtil.getInstance(this).insertMeetings(meetingBean, memberList);
+        if(isUpdateDate == true){
+            meetingBean.setMeetingId(meetingId);
+            ContactsUtil.getInstance(this).updataScheduleByMeetingId(meetingBean,memberList);
+        }else {
+            ContactsUtil.getInstance(this).insertMeetings(meetingBean, memberList);
+        }
         finish();
     }
 
@@ -519,7 +653,6 @@ public class AddMeetingActivity extends BaseActivity implements View.OnClickList
         int year = Integer.parseInt(dateStr.substring(0, 4));
         int month = Integer.parseInt(dateStr.substring(5, 7));
         int day= Integer.parseInt(dateStr.substring(8, 10));
-
 
         return OtherUtils.getTime(year,month,day,hours,minutes);
     }

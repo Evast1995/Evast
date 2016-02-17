@@ -48,6 +48,7 @@
     <dimen name="alert_btn_margin">5dp</dimen>
     <dimen name="alert_btn_height">40dp</dimen>
     <dimen name="meeting_position_dimen">50dp</dimen>
+    <dimen name="meeting_block_icon_dimen">20dp</dimen>
 
     <dimen name="contact_title_padding">8dp</dimen>
     <dimen name="contact_icon_dimen">20dp</dimen>

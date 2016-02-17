@@ -26,6 +26,8 @@ public class MyApplication extends Application{
     public static String localPhone;
     /** 当前的拨号模式*/
     public static int callModel = CallManager.CALLMODE_SIP;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -46,8 +48,6 @@ public class MyApplication extends Application{
         intent.addFlags(Service.START_STICKY);
         startService(intent);
     }
-
-
 
 
 }

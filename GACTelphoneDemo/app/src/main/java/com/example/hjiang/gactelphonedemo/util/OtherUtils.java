@@ -9,7 +9,6 @@ import android.view.WindowManager;
 
 import com.example.hjiang.gactelphonedemo.R;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,7 +31,7 @@ public class OtherUtils {
             if(i>=0 && i<9) {
                 list.add(String.valueOf(i + 1));
             }else if(i==9){
-                list.add("*");
+                list.add(".");
             }else if(i==10){
                 list.add("0");
             }else if(i==11){
@@ -215,16 +214,13 @@ public class OtherUtils {
      * @return
      */
     public static long getTime(int year,int month,int day,int hour,int minute){
-        String timeStr=""+year+"年"+month+1+"月"+day+"日"+hour+"时"+minute+"分";
-        long timeCurrent = 0L;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日HH时mm分");
-        Date date = null;
-        try {
-            date = sdf.parse(timeStr);
-            timeCurrent = date.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.MONTH,month-1);
+        calendar.set(Calendar.DAY_OF_MONTH,day);
+        calendar.set(Calendar.HOUR_OF_DAY,hour);
+        calendar.set(Calendar.MINUTE,minute);
+        long timeCurrent = calendar.getTimeInMillis();
         return timeCurrent;
     }
 
@@ -320,6 +316,34 @@ public class OtherUtils {
      */
     public static int getMinuteByMillion(long million){
         return (int) (million/60/1000);
+    }
+
+    /**
+     * 获取该时间戳下的日期 格式xxxx年xx月xx日
+     * @return
+     */
+    public static String getDateByStamp(long million){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(million);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String dataStr =  ""+String.format("%02d",year)+"年"+String.format("%02d",month)+"月"+String.format("%02d",day)+"日";
+        return dataStr;
+    }
+
+    /**
+     * 获取该时间戳下的时间 格式xx:xx
+     * @param million
+     * @return
+     */
+    public static String getTimeByStamp(long million){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(million);
+        int hour = calendar.getTime().getHours();
+        int minute = calendar.getTime().getMinutes();
+        String timeStr = ""+String.format("%02d",hour)+":"+String.format("%02d",minute);
+        return timeStr;
     }
 
 }

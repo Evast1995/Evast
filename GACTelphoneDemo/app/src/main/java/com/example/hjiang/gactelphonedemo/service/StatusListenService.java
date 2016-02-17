@@ -5,11 +5,12 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.base.module.call.Conf;
 import com.base.module.call.StatusChangeListener;
-import com.base.module.call.line.LineObjManager;
 import com.base.module.call.line.LineObj;
+import com.base.module.call.line.LineObjManager;
 import com.example.hjiang.gactelphonedemo.IStatusChangeListener;
 import com.example.hjiang.gactelphonedemo.MyApplication;
 import com.example.hjiang.gactelphonedemo.activity.CallingActivity;
@@ -75,6 +76,7 @@ public class StatusListenService extends Service implements IStatusChangeListene
      * @param line
      */
     private void openConnectingActivity(LineObj line){
+        Log.e("--main--","openConnectingActivity");
         Intent intent = new Intent(this,ConnectingActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Contants.INTENT_LINEOBJ, line);
@@ -114,6 +116,7 @@ public class StatusListenService extends Service implements IStatusChangeListene
         if(lineObj.getId()!=-1) {
             bundle.putInt(Contants.LINEOBJ_KEY, lineObj.getId());
             bundle.putInt(Contants.CALL_STATUS,lineObj.getState());
+            bundle.putBoolean(Contants.LINE_MUTE,lineObj.getIsLocalMuted());
             intent.putExtras(bundle);
             sendBroadcast(intent);
         }
@@ -133,15 +136,21 @@ public class StatusListenService extends Service implements IStatusChangeListene
         /**
          * 当钱如果是会议线路而且会议界面没有打开则跳转到会议界面
          */
-        if(isInConf && !OtherUtils.isForeground(StatusListenService.this, MeetingActivity.class.getName())){
+        if(isInConf && !OtherUtils.isForeground(StatusListenService.this,
+                MeetingActivity.class.getName())&&line.getState()!=LineObjManager.STATUS_ENDED){
             Intent intent = new Intent(StatusListenService.this,MeetingActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
         /** 发送状态变化广播*/
         sendBroadCastForStautsChange(line);
+
         /** 根据线路状态的改变情况来做对应的相关操作*/
         switch (line.getState()){
+            /** 等待会议验证*/
+            case LineObjManager.STATUS_VERIFING:{
+                break;
+            }
             /** 响铃状态*/
             case LineObjManager.STATUS_RINGING:{
                 openRingingActivity(line);
@@ -182,8 +191,9 @@ public class StatusListenService extends Service implements IStatusChangeListene
                 }
                 break;
             }
-        }
 
+        }
+        Log.e("--main--","autoMute:"+line.getIsLocalMuted());
     }
 
     @Override

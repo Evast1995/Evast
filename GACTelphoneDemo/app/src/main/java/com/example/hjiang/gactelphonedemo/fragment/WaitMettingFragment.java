@@ -27,10 +27,18 @@ public class WaitMettingFragment extends Fragment{
     private ListView listView;
     private Context context;
     private List<MeetingBean> list = new ArrayList<MeetingBean>();
+    private OpenMeetingAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context  = getActivity();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        list = ContactsUtil.getInstance(context).getMeetingsByState(0);
+        adapter.changeList(list);
     }
 
     @Override
@@ -42,11 +50,14 @@ public class WaitMettingFragment extends Fragment{
     }
 
 
-
+    /**
+     * 初始化listview
+     */
     private void initListView(){
         list = ContactsUtil.getInstance(context).getMeetingsByState(0);
-        listView.setAdapter(new OpenMeetingAdapter(context,list));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter = new OpenMeetingAdapter(context,list);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MeetingBean meetingBean = (MeetingBean) parent.getAdapter().getItem(position);

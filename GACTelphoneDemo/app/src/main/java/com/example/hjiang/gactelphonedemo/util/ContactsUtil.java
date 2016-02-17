@@ -430,5 +430,49 @@ public class ContactsUtil {
         return list;
     }
 
+    /**
+     * 删除某条会议记录通过会议Id
+     * @param meetingId
+     */
+    public void delScheduleById(int meetingId){
+        Uri meetingUri = Uri.parse("content://com.base.conference.provider/meetings");
+        Uri memberUri = Uri.parse("content://com.base.conference.provider/members");
+
+        String meetingWhereStr = "_id = ?";
+        contentResolver.delete(meetingUri,meetingWhereStr,new String []{String.valueOf(meetingId)});
+        String memberWhereStr = "meeting_id = ?";
+        contentResolver.delete(memberUri, memberWhereStr, new String[]{String.valueOf(meetingId)});
+    }
+
+    public void updataScheduleByMeetingId(MeetingBean meetingBean,List<String> list){
+        Uri meetingUri = Uri.parse("content://com.base.conference.provider/meetings");
+        Uri memberUri = Uri.parse("content://com.base.conference.provider/members");
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name",meetingBean.getName());
+        contentValues.put("state",meetingBean.getState());
+        contentValues.put("cycle_time",meetingBean.getCycleTime());
+        contentValues.put("haspwd",meetingBean.getHaspwd());
+        contentValues.put("password",meetingBean.getPswStr());
+        contentValues.put("time_zone",meetingBean.getTimeZone());
+        contentValues.put("start_time",meetingBean.getStartTime());
+        contentValues.put("duration",meetingBean.getDuration());
+        contentValues.put("reminder_time",meetingBean.getReminderTime());
+        contentValues.put("has_reminded",0);
+        contentValues.put("auto_call",meetingBean.getAutoCall());
+        contentValues.put("auto_answer",meetingBean.getAutoAnswer());
+        contentValues.put("intercept",meetingBean.getIntercept());
+        contentValues.put("auto_record",meetingBean.getAutoRecord());
+        contentValues.put("enter_mute", meetingBean.getEnterMute());
+        contentValues.put("build_time", 0);
+        String meetingWhere = "_id = ?";
+        contentResolver.update(meetingUri, contentValues, meetingWhere,
+                new String[]{String.valueOf(meetingBean.getMeetingId())});
+
+        String memberWhere = "meeting_id = ?";
+        contentResolver.delete(memberUri,memberWhere,
+                new String[]{String.valueOf(meetingBean.getMeetingId())});
+        addMeetingMemberBean(list,meetingBean.getMeetingId());
+    }
+
 }
 

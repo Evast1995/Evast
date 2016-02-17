@@ -27,11 +27,23 @@ public class HistoryMeetingFragment extends Fragment{
     private Context context;
     private List<MeetingBean> list = new ArrayList<MeetingBean>();
     private ListView listView;
+    private HistoryMeetingAdapter historyMeetingAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = getActivity();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(historyMeetingAdapter !=null){
+            initDate();
+            historyMeetingAdapter.setListChange(list);
+        }
+    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,14 +53,17 @@ public class HistoryMeetingFragment extends Fragment{
         return view;
     }
 
+
+
     /**
      * 初始化数据
      */
     private void initDate(){
-        /** 已错过的会议*/
-        list.addAll(ContactsUtil.getInstance(context).getMeetingsByState(2));
+        list.clear();
         /** 已关闭的会议*/
         list.addAll(ContactsUtil.getInstance(context).getMeetingsByState(1));
+        /** 已错过的会议*/
+        list.addAll(ContactsUtil.getInstance(context).getMeetingsByState(2));
     }
 
     /**
@@ -56,7 +71,9 @@ public class HistoryMeetingFragment extends Fragment{
      */
     private void initListView(View view){
         listView = (ListView) view.findViewById(R.id.historymeeting_list);
-        listView.setAdapter(new HistoryMeetingAdapter(context,list));
+        historyMeetingAdapter = new HistoryMeetingAdapter(context,list);
+        listView.setAdapter(historyMeetingAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.base.module.call.CallManager;
@@ -22,8 +21,7 @@ import com.example.hjiang.gactelphonedemo.util.Contants;
 public class RingingActivity extends BaseActivity implements View.OnClickListener{
     private TextView localNameTv;
     private TextView remoteNumTv;
-    private TextView titleView;
-    private ImageView headIv;
+
     private LineObj lineObj;
 
 
@@ -43,8 +41,6 @@ public class RingingActivity extends BaseActivity implements View.OnClickListene
     private void initView(){
         localNameTv = (TextView) findViewById(R.id.local_name);
         remoteNumTv = (TextView) findViewById(R.id.remote_num);
-        headIv = (ImageView) findViewById(R.id.call_head);
-        titleView = (TextView) findViewById(R.id.tilte_text);
         findViewById(R.id.accept).setOnClickListener(this);
         findViewById(R.id.reject).setOnClickListener(this);
     }
@@ -92,7 +88,7 @@ public class RingingActivity extends BaseActivity implements View.OnClickListene
      */
     private void setLineChange(int status){
        if(status != LineObjManager.STATUS_RINGING){
-           this.finish();
+           finish();
        }
     }
     /**

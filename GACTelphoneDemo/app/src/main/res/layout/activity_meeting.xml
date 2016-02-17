@@ -24,6 +24,11 @@
         android:id="@+id/clockwise_two" android:layout_width="@dimen/meeting_position_dimen"
         android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
         android:layout_above="@id/center_layout" android:layout_toRightOf="@id/center_layout" />
+    <ImageView
+        android:id="@+id/clockwise_two_block" android:layout_width="@dimen/meeting_block_icon_dimen"
+        android:layout_height="@dimen/meeting_block_icon_dimen" android:background="@drawable/block_bg"
+        android:layout_alignBottom="@id/clockwise_two" android:layout_alignRight="@id/clockwise_two"
+        android:visibility="gone"/>
     <TextView
         android:id="@+id/clockwise_two_text_name" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_below="@id/clockwise_two"
@@ -41,6 +46,11 @@
         android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
         android:layout_toRightOf="@id/center_layout" android:layout_alignBottom="@id/center_layout"
         android:layout_marginLeft="@dimen/meeting_threebtn_marginright"/>
+    <ImageView
+        android:id="@+id/clockwise_three_block" android:layout_width="@dimen/meeting_block_icon_dimen"
+        android:layout_height="@dimen/meeting_block_icon_dimen" android:background="@drawable/block_bg"
+        android:layout_alignBottom="@id/clockwise_three" android:layout_alignRight="@id/clockwise_three"
+        android:visibility="gone"/>
     <TextView
         android:id="@+id/clockwise_three_text_name" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_below="@id/clockwise_three"
@@ -57,8 +67,13 @@
     <ImageView
         android:id="@+id/clockwise_four" android:layout_width="@dimen/meeting_position_dimen"
         android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
-        android:layout_below="@id/center_layout" android:layout_alignStart="@id/center_layout"
+        android:layout_below="@id/center_layout" android:layout_alignEnd="@id/center_layout"
         android:layout_marginTop="@dimen/meeting_onebtn_margintop"/>
+    <ImageView
+        android:id="@+id/clockwise_four_block" android:layout_width="@dimen/meeting_block_icon_dimen"
+        android:layout_height="@dimen/meeting_block_icon_dimen" android:background="@drawable/block_bg"
+        android:layout_alignBottom="@id/clockwise_four" android:layout_alignRight="@id/clockwise_four"
+        android:visibility="gone"/>
     <TextView
         android:id="@+id/clockwise_four_text_name" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_below="@id/clockwise_four"
@@ -75,8 +90,13 @@
     <ImageView
         android:id="@+id/clockwise_five" android:layout_width="@dimen/meeting_position_dimen"
         android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
-        android:layout_below="@id/center_layout" android:layout_alignEnd="@id/center_layout"
+        android:layout_below="@id/center_layout" android:layout_alignStart="@id/center_layout"
         android:layout_marginTop="@dimen/meeting_onebtn_margintop" />
+    <ImageView
+        android:id="@+id/clockwise_five_block" android:layout_width="@dimen/meeting_block_icon_dimen"
+        android:layout_height="@dimen/meeting_block_icon_dimen" android:background="@drawable/block_bg"
+        android:layout_alignBottom="@id/clockwise_five" android:layout_alignRight="@id/clockwise_five"
+        android:visibility="gone"/>
     <TextView
         android:id="@+id/clockwise_five_text_name" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_below="@id/clockwise_five"
@@ -94,6 +114,11 @@
         android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
         android:layout_toLeftOf="@id/center_layout" android:layout_alignBottom="@id/center_layout"
         android:layout_marginRight="@dimen/meeting_threebtn_marginright"/>
+    <ImageView
+        android:id="@+id/clockwise_six_block" android:layout_width="@dimen/meeting_block_icon_dimen"
+        android:layout_height="@dimen/meeting_block_icon_dimen" android:background="@drawable/block_bg"
+        android:layout_alignBottom="@id/clockwise_six" android:layout_alignRight="@id/clockwise_six"
+        android:visibility="gone"/>
     <TextView
         android:id="@+id/clockwise_six_text_name" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_below="@id/clockwise_six"
@@ -110,6 +135,11 @@
         android:id="@+id/clockwise_seven" android:layout_width="@dimen/meeting_position_dimen"
         android:layout_height="@dimen/meeting_position_dimen" android:src="@mipmap/add_user"
         android:layout_above="@id/center_layout" android:layout_toLeftOf="@id/center_layout" />
+    <ImageView
+        android:id="@+id/clockwise_seven_block" android:layout_width="@dimen/meeting_block_icon_dimen"
+        android:layout_height="@dimen/meeting_block_icon_dimen" android:background="@drawable/block_bg"
+        android:layout_alignBottom="@id/clockwise_seven" android:layout_alignRight="@id/clockwise_seven"
+        android:visibility="gone"/>
     <TextView
         android:id="@+id/clockwise_seven_text_name" android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:layout_below="@id/clockwise_seven"
@@ -164,7 +194,7 @@
             <ImageView
                 android:id="@+id/people_mute" android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:background="@drawable/mute_bg"
-                android:layout_marginLeft="@dimen/meeting_tiplayout_image_marginleft"/>
+                android:layout_marginLeft="@dimen/meeting_tiplayout_image_marginleft" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

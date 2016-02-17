@@ -112,7 +112,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                     historyLv.setVisibility(View.GONE);
                 }else{
                     historyLv.setVisibility(View.VISIBLE);
-
                     historyAdapter.changeData(historyList);
                 }
                 break;

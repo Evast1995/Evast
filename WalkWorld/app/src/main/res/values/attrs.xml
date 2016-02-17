@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NavigationBar">
+        <attr name="text_size" format="dimension"/>
+        <attr name="image_size" format="dimension"/>
+    </declare-styleable>
+    <declare-styleable name="ImageTextView">
+        <attr name="text_str" format="string"/>
+        <attr name="image_background" format="reference"/>
+        <attr name="text_size" format="dimension"/>
+        <attr name="image_size" format="dimension"/>
+        <attr name="text_default_color" format="color"/>
+        <attr name="text_selected_color" format="color"/>
+    </declare-styleable>
+</resources>

@@ -1,18 +1,25 @@
 package com.example.hjiang.gactelphonedemo.util;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.base.module.call.CallManager;
 import com.base.module.call.ICallStatusListener;
+import com.example.hjiang.gactelphonedemo.MyApplication;
+import com.example.hjiang.gactelphonedemo.R;
+import com.example.hjiang.gactelphonedemo.bean.MeetingBean;
 
 /**
  * 与通话相关
  * Created by hjiang on 16-1-8.
  */
 public class CallUtils {
+    private static Context context;
     private static CallManager callManager;
     private CallUtils(Context context){
         callManager = (CallManager)context.getSystemService(Context.CALL_MANAGER_SERVICE);
+        this.context = context;
     };
     private static CallUtils callUtils;
     public synchronized static CallUtils getInstance(Context context){
@@ -124,6 +131,7 @@ public class CallUtils {
      * 所有线路均加入会议室，如果有通话线路自动拉入会议室
      */
     public void autoConf(){
+        Log.e("--main--","autoConf");
         callManager.autoConf();
     }
 
@@ -149,6 +157,7 @@ public class CallUtils {
      * 开始会议录音
      */
     public void startConferenceRecord(){
+        Toast.makeText(context,context.getString(R.string.start_record), Toast.LENGTH_SHORT).show();
         callManager.startConferenceRecord();
     }
 
@@ -156,6 +165,7 @@ public class CallUtils {
      * 停止会议录音
      */
     public void stopConferenceRecord(){
+        Toast.makeText(context,context.getString(R.string.stop_record), Toast.LENGTH_SHORT).show();
         callManager.stopConferenceRecord();
     }
 
@@ -193,6 +203,49 @@ public class CallUtils {
          return callManager.muteUnmuteLocal(lineId,isMuted);
     }
 
+    /**
+     * 设置预约会议信息
+     * @param meetingBean
+     */
+    public void setScheduleInf(MeetingBean meetingBean){
+        boolean hasPwd = false;
+        boolean isEnterMeeting = false;
+        boolean isIntercept = false;
+        boolean isAutoAnswer= false;
+        boolean isAutoRecord = false;
+        if(meetingBean.getHaspwd() == 1){
+            hasPwd = true;
+        }
+        if(meetingBean.getEnterMute() == 1){
+            isEnterMeeting = true;
+        }
+        if(meetingBean.getIntercept() == 1){
+            isIntercept = true;
+        }
+        if(meetingBean.getAutoAnswer() == 1){
+            isAutoAnswer = true;
+        }
+        if(meetingBean.getAutoRecord() ==1){
+            isAutoRecord =true;
+        }
+        callManager.setScheduleInfo(hasPwd, meetingBean.getPswStr(), isEnterMeeting, meetingBean.getName(),
+                isIntercept, true, meetingBean.getMeetingId(), isAutoAnswer, isAutoRecord);
+        for(int i=0;i<meetingBean.getMemberList().size();i++){
+            String phoneStr = meetingBean.getMemberList().get(i).getPhone();
+            confCall(MyApplication.localId,phoneStr,phoneStr,MyApplication.callModel);
+        }
+        if(isAutoRecord == true){
+            startConferenceRecord();
+        }
+    }
+
+    /**
+     * 设置会议是否上锁
+     * @param isLock
+     */
+    public void setConfLock(Boolean isLock){
+        callManager.setConfLocked(isLock);
+    }
 
 }
 

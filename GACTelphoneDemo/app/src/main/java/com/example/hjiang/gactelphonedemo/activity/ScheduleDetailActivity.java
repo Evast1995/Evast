@@ -1,5 +1,6 @@
 package com.example.hjiang.gactelphonedemo.activity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.example.hjiang.gactelphonedemo.R;
 import com.example.hjiang.gactelphonedemo.bean.MeetingBean;
 import com.example.hjiang.gactelphonedemo.bean.MemberBean;
+import com.example.hjiang.gactelphonedemo.util.CallUtils;
 import com.example.hjiang.gactelphonedemo.util.ContactsUtil;
 import com.example.hjiang.gactelphonedemo.util.Contants;
 import com.example.hjiang.gactelphonedemo.util.OtherUtils;
@@ -54,7 +56,7 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
     private TextView meetingNoSoundTv;
     
     private TextView meetingNameTv;
-
+    private MeetingBean meetingBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,9 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
         initData();
     }
     private void init(){
+        findViewById(R.id.action_call_icon).setOnClickListener(this);
+        findViewById(R.id.action_edit_icon).setOnClickListener(this);
+        findViewById(R.id.action_del_icon).setOnClickListener(this);
         memberOneLayout = (RelativeLayout) findViewById(R.id.member_one_layout);
         memberTwoLayout = (RelativeLayout) findViewById(R.id.member_two_layout);
         memberThreeLayout = (RelativeLayout) findViewById(R.id.member_three_layout);
@@ -111,7 +116,7 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
         String openStr = getResources().getString(R.string.open);
         String closeStr = getResources().getString(R.string.close);
         /** 设置会议详情中会议的成员*/
-        MeetingBean meetingBean = (MeetingBean) bundle.getSerializable(Contants.MEETING_BEAN);
+        meetingBean = (MeetingBean) bundle.getSerializable(Contants.MEETING_BEAN);
         List<MemberBean> memberBeanList = meetingBean.getMemberList();
         setMemberData(memberBeanList);
 
@@ -287,7 +292,41 @@ public class ScheduleDetailActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             }
-
+            case R.id.action_call_icon:{
+                makeSchedule();
+                break;
+            }
+            case R.id.action_del_icon:{
+                ContactsUtil.getInstance(this).delScheduleById(meetingBean.getMeetingId());
+                finish();
+                break;
+            }
+            case R.id.action_edit_icon:{
+                makeEdit();
+                finish();
+                break;
+            }
         }
+    }
+
+
+    /**
+     * 创建编辑修改
+     */
+    private void makeEdit(){
+        Intent intent = new Intent(this,AddMeetingActivity.class);
+        Bundle bundle = new Bundle();
+
+        bundle.putSerializable(Contants.MEETING_BEAN,meetingBean);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    /**
+     * 创建会议通话
+     */
+    private void makeSchedule(){
+        CallUtils.getInstance(this).setScheduleInf(meetingBean);
+
     }
 }

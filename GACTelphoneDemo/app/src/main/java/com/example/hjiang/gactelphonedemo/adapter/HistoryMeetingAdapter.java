@@ -24,6 +24,17 @@ public class HistoryMeetingAdapter extends BaseAdapter{
         this.context = context;
         this.list = list;
     }
+
+
+    /**
+     * 对外提供数据变更操作
+     * @param list
+     */
+    public void setListChange(List<MeetingBean> list){
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return list.size();

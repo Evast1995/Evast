@@ -12,7 +12,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -75,7 +75,14 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
     private ImageView holdIv;
     private ImageView muteIv;
 
-    private Boolean isHold = false;
+    private ImageView twoBlockIv;
+    private ImageView threeBlockIv;
+    private ImageView fourBlockIv;
+    private ImageView fiveBlockIv;
+    private ImageView sixBlockIv;
+    private ImageView sevenBlockIv;
+
+
     private int REQUESTCODE = 201;
     private NotificationManager notificationManager;
 
@@ -85,14 +92,20 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
     private Boolean[] muteStates = new Boolean[]{false,false,false,false,false,false};
     /** 判断当前位置上图片的状态　防止图片多次重复加载*/
     private Boolean[] bitmapStates = new Boolean[]{false,false,false,false,false,false};
-
     /** 设置位置对应的线路id key：位置 value：ID*/
     private Map<Integer,Integer> map = new HashMap<Integer, Integer>();
 
     /** 选着了第几个位置*/
-    private int position = 0;
+    private int position = 2;
 
     public static final int NO_PEOPLE = -1;
+
+    /** 是否上锁*/
+    private Boolean isLock;
+    /** 是否全部暂停*/
+    private Boolean isOnHold;
+    /** 是否全部静音*/
+    private Boolean isMute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,13 +115,19 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
         initView();
         initLineObjes();
         setBroadCastRevice();
+        setConfChangeReceiver();
     }
+
 
     @Override
     protected void onDestroy() {
         if(receiver!=null) {
             unregisterReceiver(receiver);
             receiver = null;
+        }
+        if(confChangeReceiver!=null){
+            unregisterReceiver(confChangeReceiver);
+            confChangeReceiver = null;
         }
         super.onDestroy();
     }
@@ -141,6 +160,21 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
         peoplePhoneTv = (TextView) findViewById(R.id.people_phone);
         muteIv = (ImageView) findViewById(R.id.people_mute);
         holdIv = (ImageView) findViewById(R.id.people_pause);
+
+        twoBlockIv = (ImageView) findViewById(R.id.clockwise_two_block);
+        threeBlockIv = (ImageView) findViewById(R.id.clockwise_three_block);
+        fourBlockIv = (ImageView) findViewById(R.id.clockwise_four_block);
+        fiveBlockIv = (ImageView) findViewById(R.id.clockwise_five_block);
+        sixBlockIv = (ImageView) findViewById(R.id.clockwise_six_block);
+        sevenBlockIv = (ImageView) findViewById(R.id.clockwise_seven_block);
+
+        twoBlockIv.setOnClickListener(this);
+        threeBlockIv.setOnClickListener(this);
+        fourBlockIv.setOnClickListener(this);
+        fiveBlockIv.setOnClickListener(this);
+        sixBlockIv.setOnClickListener(this);
+        sevenBlockIv.setOnClickListener(this);
+
         muteIv.setOnClickListener(this);
         holdIv.setOnClickListener(this);
 
@@ -169,12 +203,17 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
         setBtnEnable();
     }
 
+
+
     /**
-     * 通过线路的id 来确定改线路在屏幕上对应的位置 -1为该线路为添加到屏幕
+     * 通过线路的id 来确定该线路在屏幕上对应的位置 -1为该线路为添加到屏幕
      * @param lineId
      * @return
      */
     private int getPositionByLineId(int lineId){
+        if(map == null ||map.size() == 0){
+            initMap();
+        }
         int position = -1;
         for(int i=2;i<=7;i++){
             if(map.get(i)==lineId){
@@ -191,6 +230,9 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
      */
     private Boolean isHavingPeople(){
         Boolean isHavingPeople = false;
+        if(map == null||map.size()==0){
+            initMap();
+        }
         for(int i=2;i<7;i++){
             if(map.get(i)!=-1){
                 isHavingPeople =true;
@@ -226,23 +268,33 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
     }
 
     /**
+     * 设置全部静音点击事件
+     */
+    private void setIsAllMute(){
+        CallUtils.getInstance(this).setIsMutedAll(!isMute);
+    }
+
+    /**
      * 设置点击暂停事件
      */
     private void setPressPauseListener(){
-        CallUtils.getInstance(this).setIsConfOnHold(!isHold);
-        isHold = !isHold;
+        CallUtils.getInstance(this).setIsConfOnHold(!isOnHold);
     }
     private void setAlertOnClickListener(DialogInterface dialog, int which){
         switch (which) {
-            case 0: {//开始录音
-                setPressRecordListener();
-                break;
-            }
-            case 1: {//开始暂停
+            case 0: {//开始暂停
                 setPressPauseListener();
                 break;
             }
-            case 2: {//结束会议
+            case 1: {//开始录音
+                setPressRecordListener();
+                break;
+            }
+            case 2:{//开始静音
+                setIsAllMute();
+                break;
+            }
+            case 3: {//结束会议
                 CallUtils.getInstance(MeetingActivity.this).endConf();
                 break;
             }
@@ -254,19 +306,21 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
      * 获取不同状态下，alert对应显示的数组
      * @return
      */
-    private int getStringArray(){
-        Boolean isRecord = CallUtils.getInstance(this).isConferenceInRecord();
-        int kind = 0;
-        if(!isRecord&&!isHold){//当前状态没有在暂停，没有在录音
-            kind = R.array.alert_state_one;
-        }else if(isRecord&&!isHold){//当前状态没有在暂停，在录音
-            kind = R.array.alert_state_two;
-        }else if(isRecord&&isHold){//当前状态在暂停，在录音
-            kind = R.array.alert_state_three;
-        }else if(!isRecord&&isHold){//当前状态在暂停，没有在录音
-            kind = R.array.alert_state_three;
+    private String[] getStringArray(){
+        String [] confStateStrs= new String[]{getString(R.string.start_pause),
+                getString(R.string.start_record),getString(R.string.start_mute),
+                getString(R.string.end_meeting)};
+
+        if(CallUtils.getInstance(this).isConferenceInRecord()){
+            confStateStrs[1] = getString(R.string.stop_record);
         }
-        return kind;
+        if(isMute){
+            confStateStrs[2] = getString(R.string.stop_mute);
+        }
+        if(isOnHold){
+            confStateStrs[0] = getString(R.string.stop_pause);
+        }
+        return confStateStrs;
     }
     /**
      * 点击更多时候的事件
@@ -367,7 +421,55 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
                 setMuteIvListener();
                 break;
             }
+            case R.id.clockwise_two_block:{
+                Integer lineId = (Integer) v.getTag();
+                setMuteIvClick(lineId);
+                break;
+            }
+            case R.id.clockwise_three_block:{
+                Integer lineId = (Integer) v.getTag();
+                setMuteIvClick(lineId);
+                break;
+            }
+            case R.id.clockwise_four_block:{
+                Integer lineId = (Integer) v.getTag();
+                setMuteIvClick(lineId);
+                break;
+            }
+            case R.id.clockwise_five_block:{
+                Integer lineId = (Integer) v.getTag();
+                setMuteIvClick(lineId);
+                break;
+            }
+            case R.id.clockwise_six_block:{
+                Integer lineId = (Integer) v.getTag();
+                setMuteIvClick(lineId);
+                break;
+            }
+            case R.id.clockwise_seven_block:{
+                Integer lineId = (Integer) v.getTag();
+                setMuteIvClick(lineId);
+                break;
+            }
         }
+    }
+
+    /**
+     * 设置线路是否静音
+     * @param lineId
+     */
+    private void setMuteIvClick(int lineId){
+        LineObj lineObj = LineUtils.getInstance(this).getLineById(lineId);
+        if(lineObj == null){return;}
+        CallUtils.getInstance(this).muteUnmuteLocal(lineId,!lineObj.getIsLocalMuted());
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            CallUtils.getInstance(this).endConf();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**
@@ -378,7 +480,7 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
         Boolean isSuccess = CallUtils.getInstance(this).muteUnmuteLocal(map.get(position),!isMute);
         tipLayout.setVisibility(View.GONE);
         if(isSuccess == false){
-            Toast.makeText(this,R.string.failed_mute,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.failed_mute, Toast.LENGTH_SHORT).show();
             return;
         }
         muteStates[position-2] = !muteStates[position-2];
@@ -508,12 +610,13 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
      * 初始化map的值　使其开始默认　所有位置上都没有人 NO_PEOPLE为没有通话线路
      */
     private void initMap(){
+        if(map!=null&&map.size()>0){
+            return;
+        }
         for(int i=2;i<=7;i++) {
             map.put(i,NO_PEOPLE);
         }
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -532,7 +635,7 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
      * 锁定按钮点击事件
      */
     private void lockBtnOnClick(){
-
+        CallUtils.getInstance(this).setConfLock(!isLock);
     }
 
     /**
@@ -544,6 +647,11 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
         String handle = null;
         setBtnEnable();
         switch (status){
+            /** 等待会议的验证*/
+            case LineObjManager.STATUS_VERIFING:{
+                handle = getString(R.string.verifing);
+                break;
+            }
             /** 响铃状态*/
             case LineObjManager.STATUS_RINGING:{
                 break;
@@ -604,8 +712,14 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
      * @param imageView
      * @param textView
      */
-    private void setLineChangeView(final ImageView imageView, final TextView textView, final TextView textNameView, final int position, final int status){
-        LineObj lineObj = LineUtils.getInstance(MeetingActivity.this).getLineById(map.get(position));
+    private void setLineChangeView(final ImageView imageView, final TextView textView,
+                                   final TextView textNameView, final int position,
+                                   final int status,ImageView localMuteIv){
+        int lineId = map.get(position);
+        if(lineId == -1){
+            return;
+        }
+        LineObj lineObj = LineUtils.getInstance(MeetingActivity.this).getLineById(lineId);
         String handle = getLineChangeString(lineObj,status);
         if(status == LineObjManager.STATUS_ENDED || status == LineObjManager.STATUS_ENDING){
             Bitmap bitmap = ImageUtils.getBitmapByResId(R.mipmap.add_user, MeetingActivity.this);
@@ -623,18 +737,25 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
             }
             textNameView.setText(lineObj.getCallConnection().getOriginDialNumber());
             textView.setText(handle);
+
+            if(lineObj.getIsLocalMuted()) {
+                localMuteIv.setVisibility(View.VISIBLE);
+            }else{
+                localMuteIv.setVisibility(View.GONE);
+            }
+            localMuteIv.setTag(lineId);
         }
         if(isNoPeople()) {
-            Log.e("--main--","isNoPeople:"+true);
             moreBtn.setFocusable(false);
             if(notificationManager!=null){
                 notificationManager.cancelAll();
             }
         }else{
-            Log.e("--main--","isNoPeople:"+false);
             moreBtn.setFocusable(true);
             setShowInNotification();
         }
+
+
     }
 
     /**
@@ -650,7 +771,6 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
             imageView.setImageBitmap(bitmap);
         }else {
             imageView.setImageBitmap(bitmap);
-
         }
     }
 
@@ -677,27 +797,27 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
         int position = getPositionByHavingId(lineObjId);
         switch (position){
             case 2:{
-                setLineChangeView(twoImage,twoTv,twoNameTv,2,status);
+                setLineChangeView(twoImage,twoTv,twoNameTv,2,status,twoBlockIv);
                 break;
             }
             case 3:{
-                setLineChangeView(threeImage,threeTv,threeNameTv,3,status);
+                setLineChangeView(threeImage,threeTv,threeNameTv,3,status,threeBlockIv);
                 break;
             }
             case 4:{
-                setLineChangeView(fourImage, fourTv,fourNameTv,4,status);
+                setLineChangeView(fourImage, fourTv,fourNameTv,4,status,fourBlockIv);
                 break;
             }
             case 5:{
-                setLineChangeView(fiveImage, fiveTv,fiveNameTv,5,status);
+                setLineChangeView(fiveImage, fiveTv,fiveNameTv,5,status,fiveBlockIv);
                 break;
             }
             case 6:{
-                setLineChangeView(sixImage, sixTv,sixNameTv,6,status);
+                setLineChangeView(sixImage, sixTv,sixNameTv,6,status,sixBlockIv);
                 break;
             }
             case 7:{
-                setLineChangeView(sevenImage, sevenTv,sevenNameTv,7,status);
+                setLineChangeView(sevenImage, sevenTv,sevenNameTv,7,status,sevenBlockIv);
                 break;
             }
         }
@@ -720,6 +840,24 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    private void setConfChangeReceiver(){
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Contants.BROADCAST_CONF);
+        registerReceiver(confChangeReceiver,intentFilter);
+    }
+
+    private BroadcastReceiver confChangeReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            isLock = bundle.getBoolean(Contants.IS_LOCK);
+            isMute = bundle.getBoolean(Contants.IS_MUTE_KEY);
+            isOnHold = bundle.getBoolean(Contants.IS_ONHOLD_KEY);
+
+            lockBtn.setSelected(isLock);
+            pauseBtn.setSelected(isOnHold);
+        }
+    };
 
     /**
      * 线路变化广播监听事件
@@ -730,13 +868,19 @@ public class MeetingActivity extends BaseActivity implements View.OnClickListene
             Bundle bundle = intent.getExtras();
             int lineObjId = bundle.getInt(Contants.LINEOBJ_KEY);
             int status = bundle.getInt(Contants.CALL_STATUS);
+            Boolean isLocalMute = bundle.getBoolean(Contants.LINE_MUTE);
+
+            if(map == null||map.size() == 0){
+                initMap();
+            }
             if(getPositionByLineId(lineObjId) ==-1) {
                 if (map.get(position) != -1) {
-                    map.put(getEmptyPosition(), lineObjId);
+                    map.put(getEmptyPosition(),lineObjId);
                 } else {
                     map.put(position, lineObjId);
                 }
             }
+
             setLineChange(lineObjId, status);
         }
     };

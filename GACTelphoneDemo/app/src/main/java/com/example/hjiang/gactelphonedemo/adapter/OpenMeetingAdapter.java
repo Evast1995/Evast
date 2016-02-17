@@ -1,7 +1,6 @@
 package com.example.hjiang.gactelphonedemo.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.example.hjiang.gactelphonedemo.R;
 import com.example.hjiang.gactelphonedemo.bean.MeetingBean;
 import com.example.hjiang.gactelphonedemo.bean.MemberBean;
+import com.example.hjiang.gactelphonedemo.util.CallUtils;
 import com.example.hjiang.gactelphonedemo.util.ContactsUtil;
 import com.example.hjiang.gactelphonedemo.util.OtherUtils;
 
@@ -29,6 +29,15 @@ public class OpenMeetingAdapter extends BaseAdapter{
         this.list = list;
         this.context = context;
     }
+
+    /**
+     * 对外提供list变更操作
+     */
+    public void changeList(List<MeetingBean> list){
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return list.size();
@@ -56,6 +65,13 @@ public class OpenMeetingAdapter extends BaseAdapter{
             viewHolder.stateTv = (TextView) convertView.findViewById(R.id.meeting_state);
             viewHolder.isCycleIv = (ImageView) convertView.findViewById(R.id.loop_icon);
             viewHolder.startBtn = (Button) convertView.findViewById(R.id.meeting_startbtn);
+            viewHolder.startBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MeetingBean meetingBean = (MeetingBean) v.getTag();
+                    CallUtils.getInstance(context).setScheduleInf(meetingBean);
+                }
+            });
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -69,12 +85,7 @@ public class OpenMeetingAdapter extends BaseAdapter{
         }else{
             viewHolder.isCycleIv.setVisibility(View.VISIBLE);
         }
-        viewHolder.startBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("--main--","startBtn");
-            }
-        });
+        viewHolder.startBtn.setTag(meetingBean);
         return convertView;
     }
 
